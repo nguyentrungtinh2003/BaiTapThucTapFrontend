@@ -1,0 +1,62 @@
+﻿@inherits LayoutComponentBase
+<div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-primary bg-primary px-4 shadow">
+
+        <a class="navbar-brand fw-bold" href="">WMS</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Trang Chủ</NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="don-vi-tinh">Đơn Vị Tính</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="loai-san-pham">Loại Sản Phẩm</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="san-pham">Sản Phẩm</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="nha-cung-cap">Nha Cung Cap</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="kho">Kho</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="nhap-kho">Nhap Kho</NavLink>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center px-3" href="#" data-bs-toggle="dropdown">
+                        <img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle me-2">
+                        <span>User</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- CONTENT -->
+    <div class="container mt-4">
+        @Body
+    </div>
+
+</div>

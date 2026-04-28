@@ -1,0 +1,79 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BaiTapThucTapFrontend
+build_property.RootNamespace = BaiTapThucTapFrontend
+build_property.ProjectDir = D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/DonViTinh.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEb25WaVRpbmgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/Kho.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xLaG8ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/LoaiSanPham.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2FpU2FuUGhhbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/NhaCungCap.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOaGFDdW5nQ2FwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/NhapKho.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xOaGFwS2hvLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/SanPham.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTYW5QaGFtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xXZWF0aGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-gqs6e3sxu9
+
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-9dlsxwrxvw
