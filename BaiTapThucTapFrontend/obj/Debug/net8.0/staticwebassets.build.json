@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mSi8JYPnYgbBkXvb40JK8Rt71y5cgVU9JXLPlPEUeQY=",
+  "Hash": "2VDFsXfawWKHAwW1xse03RcnJCC9AWcx8LiGVI128xw=",
   "Source": "BaiTapThucTapFrontend",
   "BasePath": "_content/BaiTapThucTapFrontend",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "D:\\MY_PROJECT\\BaiTapThucTapFrontend\\BaiTapThucTapFrontend\\wwwroot\\index.html",
+      "SourceId": "BaiTapThucTapFrontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MY_PROJECT\\BaiTapThucTapFrontend\\BaiTapThucTapFrontend\\wwwroot\\",
+      "BasePath": "_content/BaiTapThucTapFrontend",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
     }
   ]
 }

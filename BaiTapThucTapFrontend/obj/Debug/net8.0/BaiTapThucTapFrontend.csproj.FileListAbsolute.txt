@@ -27,3 +27,4 @@ D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\refin
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.pdb
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.genruntimeconfig.cache
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\ref\BaiTapThucTapFrontend.dll
+D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.sourcelink.json

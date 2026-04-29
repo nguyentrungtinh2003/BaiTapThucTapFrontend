@@ -3,28 +3,35 @@
 @using BaiTapThucTapFrontend.Models
 @inject HttpClient Http
 @inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <div class="container-fluid">
-    <h3 class="mt-3">Quản lý Nhap kho</h3>
+    <h3 class="mt-3">Quản Lý Nhập Kho</h3>
+
+    <button class="btn text-white mb-3"
+            style="background-color:#6f42c1"
+            @onclick="() => showForm = true">
+        + Thêm phiếu nhập kho
+    </button>
 
     @* Form nhập liệu nhanh *@
-    <div class="card my-3">
+   @*  <div class="card my-3">
         <div class="card-body bg-light">
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label class="form-label">So phieu nhap kho (*)</label>
-                    <input type="text" class="form-control" @bind="model.So_Phieu_Nhap_Kho" placeholder="Ví dụ: 001,002..." />
+                    <label class="form-label">Số phiếu nhập kho (*)</label>
+                    <input type="text" class="form-control" @bind="model.So_Phieu_Nhap_Kho" placeholder="Ví dụ: nk001,nk002..." />
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Kho (*)</label>
                     <input type="text" class="form-control" @bind="model.Kho_ID" placeholder="Ví dụ: Kho1, Kho2,..." />
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Nha cung cap (*)</label>
+                    <label class="form-label">Nhà cung cấp (*)</label>
                     <input type="text" class="form-control" @bind="model.NCC_ID" placeholder="" />
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Ngay nhap kho (*)</label>
+                    <label class="form-label">Ngày nhập kho (*)</label>
                     <input type="text" class="form-control" @bind="model.Ngay_Nhap_Kho" placeholder="" />
                 </div>
                 <div class="col-md-6">
@@ -32,7 +39,7 @@
                     <input type="text" class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có..." />
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" @onclick="HandleSave">
+                    <button class="btn w-100 text-white" style="background-color:#6f42c1" @onclick="HandleSave">
                         <i class="bi bi-save"></i> Lưu dữ liệu
                     </button>
                 </div>
@@ -43,6 +50,75 @@
             }
         </div>
     </div>
+ *@
+
+    @if (showForm)
+    {
+        <div class="overlay">
+            <div class="form-popup card shadow">
+                <div class="card-header text-white" style="background:#6f42c1">
+                    <h5>@(isEdit ? "Cập nhật" : "Thêm mới") phiếu nhập kho</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Số phiếu nhập kho</label>
+                        <input class="form-control" @bind="model.So_Phieu_Nhap_Kho" placeholder="NK001, NK002,..."/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Kho</label>
+                        <select class="form-select" @bind="model.Kho_ID">
+                            <option value="">-- Chọn kho --</option>
+                            @foreach (var kho in listKho)
+                            {
+                                <option value="@kho.Id">@kho.Ten_Kho</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Nhà cung cấp</label>
+                        <select class="form-select" @bind="model.NCC_ID">
+                            <option value="">-- Chọn nhà cung cấp --</option>
+                            @foreach (var ncc in listNCC)
+                            {
+                                <option value="@ncc.Id">@ncc.Ten_NCC</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ngày nhập kho</label>
+                        @* <input class="form-control" @bind="model.Ngay_Nhap_Kho" /> *@
+                        <InputDate @bind-Value="model.Ngay_Nhap_Kho" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ghi chú</label>
+                        <input class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có"/>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-danger"
+                                @onclick="() => {showForm = false; isEdit = false;}">
+                            Hủy
+                        </button>
+
+                        <button class="btn text-white"
+                                style="background:#6f42c1"
+                                @onclick="HandleSave">
+                            Lưu
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(msg))
+                    {
+                        <div class="alert alert-info mt-2">@msg</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 
     @* Bảng hiển thị *@
     <div class="table-responsive">
@@ -50,22 +126,22 @@
             <thead class="table-dark">
                 <tr>
                     <td>Id</td>
-                    <td>So phieu nhap kho</td>
-                    <td>KhoID</td>
-                    <td>Nha cung cap ID</td>
-                    <th>Ngay nhap kho</th>
-                    <th>Ghi Chú</th>
+                    <td>Số phiếu nhập kho</td>
+                    <td>Kho</td>
+                    <td>Nhà cung cấp</td>
+                    <th>Ngày nhập kho</th>
+                    <th>Ghi chú</th>
                     <th class="text-center" width="180">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 @if (listData == null)
                 {
-                    <tr><td colspan="3" class="text-center">Đang tải dữ liệu từ API...</td></tr>
+                    <tr><td colspan="7" class="text-center">Đang tải dữ liệu từ API...</td></tr>
                 }
                 else if (listData.Count == 0)
                 {
-                    <tr><td colspan="3" class="text-center">Chưa có dữ liệu nào.</td></tr>
+                    <tr><td colspan="7" class="text-center">Chưa có dữ liệu nào.</td></tr>
                 }
                 else
                 {
@@ -92,81 +168,123 @@
 
 @code {
 
-    //private List<DonViTinhDto>? listData;
+    private List<NhapKhoDto>? listData;
+    private List<KhoDto>? listKho = new();
+    private List<NhaCungCapDto>? listNCC = new();
 
-    List<NhapKhoDto> listData = new List<NhapKhoDto>
-    {
-        new NhapKhoDto{Id = 1,So_Phieu_Nhap_Kho = "001",Kho_ID = 1, NCC_ID = 1,Ngay_Nhap_Kho = new DateTime(2026,1,1), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 1, Nhap_Kho_ID = 1, San_Pham_ID = 1, SL_Nhap = 2, Don_Gia_Nhap = 0m } } },
-        new NhapKhoDto{Id = 2,So_Phieu_Nhap_Kho = "002",Kho_ID = 2, NCC_ID = 2,Ngay_Nhap_Kho = new DateTime(2026,1,2), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 2, Nhap_Kho_ID = 2, San_Pham_ID = 2, SL_Nhap = 5, Don_Gia_Nhap = 0m } } },
-        new NhapKhoDto{Id = 3,So_Phieu_Nhap_Kho = "003",Kho_ID = 3, NCC_ID = 3,Ngay_Nhap_Kho = new DateTime(2026,1,3), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 3, Nhap_Kho_ID = 3, San_Pham_ID = 3, SL_Nhap = 9, Don_Gia_Nhap = 0m } } },
-        new NhapKhoDto{Id = 4,So_Phieu_Nhap_Kho = "004",Kho_ID = 4, NCC_ID = 4,Ngay_Nhap_Kho = new DateTime(2026,1,4), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 4, Nhap_Kho_ID = 4, San_Pham_ID = 4, SL_Nhap = 3, Don_Gia_Nhap = 0m } } },
-        new NhapKhoDto{Id = 5,So_Phieu_Nhap_Kho = "005",Kho_ID = 5, NCC_ID = 5,Ngay_Nhap_Kho = new DateTime(2026,1,5), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 5, Nhap_Kho_ID = 5, San_Pham_ID = 5, SL_Nhap = 4, Don_Gia_Nhap = 0m } } },
-    };
+    // List<NhapKhoDto> listData = new List<NhapKhoDto>
+    // {
+    //     new NhapKhoDto{Id = 1,So_Phieu_Nhap_Kho = "001",Kho_ID = 1, NCC_ID = 1,Ngay_Nhap_Kho = new DateTime(2026,1,1), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 1, Nhap_Kho_ID = 1, San_Pham_ID = 1, SL_Nhap = 2, Don_Gia_Nhap = 0m } } },
+    //     new NhapKhoDto{Id = 2,So_Phieu_Nhap_Kho = "002",Kho_ID = 2, NCC_ID = 2,Ngay_Nhap_Kho = new DateTime(2026,1,2), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 2, Nhap_Kho_ID = 2, San_Pham_ID = 2, SL_Nhap = 5, Don_Gia_Nhap = 0m } } },
+    //     new NhapKhoDto{Id = 3,So_Phieu_Nhap_Kho = "003",Kho_ID = 3, NCC_ID = 3,Ngay_Nhap_Kho = new DateTime(2026,1,3), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 3, Nhap_Kho_ID = 3, San_Pham_ID = 3, SL_Nhap = 9, Don_Gia_Nhap = 0m } } },
+    //     new NhapKhoDto{Id = 4,So_Phieu_Nhap_Kho = "004",Kho_ID = 4, NCC_ID = 4,Ngay_Nhap_Kho = new DateTime(2026,1,4), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 4, Nhap_Kho_ID = 4, San_Pham_ID = 4, SL_Nhap = 3, Don_Gia_Nhap = 0m } } },
+    //     new NhapKhoDto{Id = 5,So_Phieu_Nhap_Kho = "005",Kho_ID = 5, NCC_ID = 5,Ngay_Nhap_Kho = new DateTime(2026,1,5), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 5, Nhap_Kho_ID = 5, San_Pham_ID = 5, SL_Nhap = 4, Don_Gia_Nhap = 0m } } },
+    // };
 
     private NhapKhoDto model = new();
+    private bool showForm = false;
     private string msg = "";
     private bool isEdit = false;
 
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     await LoadList();
-    // }
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadList();
+        await LoadDropdown();
+    }
 
-    // private async Task LoadList()
-    // {
-    //     // Nhớ chỉnh lại "api/DonViTinh" cho đúng Route bên Backend của em
-    //     listData = await Http.GetFromJsonAsync<List<DonViTinhDto>>("api/DonViTinh");
-    // }
+    private async Task LoadList()
+    {
+        try
+        {
+            listData = await Http.GetFromJsonAsync<List<NhapKhoDto>>("api/NhapKho");
+        }
+        catch
+        {
+            msg = "Lỗi khi lấy thông tin nhập kho";
+        }
+    }
+
+    private async Task LoadDropdown()
+    {
+        try
+        {
+            listKho = await Http.GetFromJsonAsync<List<KhoDto>>("api/Kho");
+            listNCC = await Http.GetFromJsonAsync<List<NhaCungCapDto>>("api/NhaCungCap");
+        }
+        catch
+        {
+            msg = "Lỗi không lấy được dữ liệu kho hoặc nhà cung cấp";
+        }
+    }
 
     private async Task HandleSave()
     {
         if (string.IsNullOrEmpty(model.So_Phieu_Nhap_Kho))
         {
-            msg = "Vui lòng nhập so phieu nhap kho!";
+            msg = "Vui lòng nhập số phiếu nhập kho!";
             return;
         }
 
         if(model.Kho_ID <= 0)
         {
-            msg = "Kho khong hop le";
+            msg = "Kho không hợp lệ";
             return;
         }
 
         if(model.NCC_ID <= 0)
         {
-            msg = "Nha cung cap khong hop le";
+            msg = "Nhà cung cấp không hợp lệ";
             return;
         }
 
         if(model.Ngay_Nhap_Kho == null)
         {
-            msg = "Vui long chon ngay nhap kho";
+            msg = "Vui lòng chọn ngày nhập kho";
             return;
         }
 
-       
+
 
         if (isEdit)
         {
-            await Http.PutAsJsonAsync($"api/NhapKho/{model.Id}", model);
-            msg = "Cập nhật thành công!";
+            try
+            {
+                await Http.PutAsJsonAsync($"api/NhapKho/{model.Id}", model);
+                msg = "Cập nhật thành công!";
+            }
+            catch
+            {
+                msg = "Lỗi khi cập nhật nhập kho";
+            }
         }
         else
         {
-            var res = await Http.PostAsJsonAsync("api/NhapKho", model);
-            if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
-            else msg = "Lỗi: !";
+            try
+            {
+                var res = await Http.PostAsJsonAsync("api/NhapKho", model);
+                if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
+                else
+                {
+                    var error = await res.Content.ReadAsStringAsync();
+                    msg = error;
+                }
+            }
+            catch
+            {  
+                msg = "Lỗi khi thêm phiếu nhập kho";
+            }
         }
 
         model = new();
         isEdit = false;
-        //await LoadList();
+        await LoadList();
     }
 
     private void LoadEdit(NhapKhoDto item)
     {
         model = new NhapKhoDto { Id = item.Id, So_Phieu_Nhap_Kho = item.So_Phieu_Nhap_Kho,Kho_ID = item.Kho_ID,NCC_ID = item.NCC_ID,Ngay_Nhap_Kho = item.Ngay_Nhap_Kho,Ghi_Chu = item.Ghi_Chu };
         isEdit = true;
+        showForm = true;
         msg = "Đang ở chế độ chỉnh sửa.";
     }
 
@@ -175,8 +293,15 @@
         bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa phieu nhap này?");
         if (confirm)
         {
-            await Http.DeleteAsync($"api/NhapKho/{id}");
-            // await LoadList();
+            try
+            {
+                await Http.DeleteAsync($"api/NhapKho/{id}");
+                await LoadList();
+            }
+            catch
+            {
+                msg = "Lỗi khi xoá nhập kho";
+            }
         }
     }
 }

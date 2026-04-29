@@ -3,24 +3,32 @@
 @using BaiTapThucTapFrontend.Models
 @inject HttpClient Http
 @inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <div class="container-fluid">
-    <h3 class="mt-3">Quản lý Kho</h3>
+    <h3 class="mt-3">Quản Lý Kho</h3>
+
+
+    <button class="btn text-white mb-3"
+            style="background-color:#6f42c1"
+            @onclick="() => showForm = true">
+        + Thêm kho
+    </button>
 
     @* Form nhập liệu nhanh *@
-    <div class="card my-3">
+   @*  <div class="card my-3">
         <div class="card-body bg-light">
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label class="form-label">Tên Kho (*)</label>
-                    <input type="text" class="form-control" @bind="model.Ten_Kho" placeholder="Ví dụ: Nha cung cap1,..." />
+                    <label class="form-label">Tên kho (*)</label>
+                    <input type="text" class="form-control" @bind="model.Ten_Kho" placeholder="Ví dụ: Kho1, Kho2,..." />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Ghi chú</label>
                     <input type="text" class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có..." />
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn btn-primary w-100" @onclick="HandleSave">
+                    <button class="btn w-100 text-white" style="background-color:#6f42c1" @onclick="HandleSave">
                         <i class="bi bi-save"></i> Lưu dữ liệu
                     </button>
                 </div>
@@ -30,7 +38,48 @@
                 <div class="alert alert-info mt-2 py-1">@msg</div>
             }
         </div>
-    </div>
+    </div> *@
+
+    @if (showForm)
+    {
+        <div class="overlay">
+            <div class="form-popup card shadow">
+                <div class="card-header text-white" style="background:#6f42c1">
+                    <h5>@(isEdit ? "Cập nhật" : "Thêm mới") kho</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Tên kho</label>
+                        <input class="form-control" @bind="model.Ten_Kho" placeholder="VD Kho1, Kho2,..."/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ghi chú</label>
+                        <input class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có"/>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn btn-danger"
+                                @onclick="() => {showForm = false; isEdit = false;}">
+                            Hủy
+                        </button>
+
+                        <button class="btn text-white"
+                                style="background:#6f42c1"
+                                @onclick="HandleSave">
+                            Lưu
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(msg))
+                    {
+                        <div class="alert alert-info mt-2">@msg</div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 
     @* Bảng hiển thị *@
     <div class="table-responsive">
@@ -38,19 +87,19 @@
             <thead class="table-dark">
                 <tr>
                     <th>Id</th>
-                    <th>Ten kho</th>
-                    <th>Ghi Chú</th>
+                    <th>Tên kho</th>
+                    <th>Ghi chú</th>
                     <th class="text-center" width="180">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 @if (listData == null)
                 {
-                    <tr><td colspan="3" class="text-center">Đang tải dữ liệu từ API...</td></tr>
+                    <tr><td colspan="4" class="text-center">Đang tải dữ liệu từ API...</td></tr>
                 }
                 else if (listData.Count == 0)
                 {
-                    <tr><td colspan="3" class="text-center">Chưa có dữ liệu nào.</td></tr>
+                    <tr><td colspan="4" class="text-center">Chưa có dữ liệu nào.</td></tr>
                 }
                 else
                 {
@@ -74,31 +123,38 @@
 
 @code {
 
-    //private List<DonViTinhDto>? listData;
+    private List<KhoDto>? listData;
 
-    List<KhoDto> listData = new List<KhoDto>
-    {
-        new KhoDto{Id = 1,Ten_Kho = "Kho1",Ghi_Chu = "Note"},
-        new KhoDto{Id = 2,Ten_Kho = "Kho2",Ghi_Chu = "Note"},
-        new KhoDto{Id = 3,Ten_Kho = "Kho3",Ghi_Chu = "Note"},
-        new KhoDto{Id = 4,Ten_Kho = "Kho4",Ghi_Chu = "Note"},
-        new KhoDto{Id = 5,Ten_Kho = "Kho5",Ghi_Chu = "Note"},
-    };
+    // List<KhoDto> listData = new List<KhoDto>
+    // {
+    //     new KhoDto{Id = 1,Ten_Kho = "Kho1",Ghi_Chu = "Note"},
+    //     new KhoDto{Id = 2,Ten_Kho = "Kho2",Ghi_Chu = "Note"},
+    //     new KhoDto{Id = 3,Ten_Kho = "Kho3",Ghi_Chu = "Note"},
+    //     new KhoDto{Id = 4,Ten_Kho = "Kho4",Ghi_Chu = "Note"},
+    //     new KhoDto{Id = 5,Ten_Kho = "Kho5",Ghi_Chu = "Note"},
+    // };
 
     private KhoDto model = new();
+    private bool showForm = false;
     private string msg = "";
     private bool isEdit = false;
 
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     await LoadList();
-    // }
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadList();
+    }
 
-    // private async Task LoadList()
-    // {
-    //     // Nhớ chỉnh lại "api/DonViTinh" cho đúng Route bên Backend của em
-    //     listData = await Http.GetFromJsonAsync<List<DonViTinhDto>>("api/DonViTinh");
-    // }
+    private async Task LoadList()
+    {
+        try
+        {
+            listData = await Http.GetFromJsonAsync<List<KhoDto>>("api/Kho");
+        }
+        catch
+        {
+            msg = "Lỗi khi lấy dữ liệu kho";
+        }
+    }
 
     private async Task HandleSave()
     {
@@ -110,25 +166,44 @@
 
         if (isEdit)
         {
-            await Http.PutAsJsonAsync($"api/Kho/{model.Id}", model);
-            msg = "Cập nhật thành công!";
+            try
+            {
+                await Http.PutAsJsonAsync($"api/Kho/{model.Id}", model);
+                msg = "Cập nhật thành công!";
+            }
+            catch
+            {
+                msg = "Lỗi khi cập nhật kho";
+            }
         }
         else
         {
-            var res = await Http.PostAsJsonAsync("api/Kho", model);
-            if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
-            else msg = "Lỗi: Kho có thể đã tồn tại!";
+            try
+            {
+                var res = await Http.PostAsJsonAsync("api/Kho", model);
+                if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
+                else
+                {
+                    var error = await res.Content.ReadAsStringAsync();
+                    msg = error;
+                }
+            }
+            catch
+            {
+                 msg = "Lỗi khi thêm kho";
+            }
         }
 
         model = new();
         isEdit = false;
-        //await LoadList();
+        await LoadList();
     }
 
     private void LoadEdit(KhoDto item)
     {
         model = new KhoDto { Id = item.Id, Ten_Kho = item.Ten_Kho, Ghi_Chu = item.Ghi_Chu };
         isEdit = true;
+        showForm = true;
         msg = "Đang ở chế độ chỉnh sửa.";
     }
 
@@ -137,8 +212,15 @@
         bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa kho này?");
         if (confirm)
         {
-            await Http.DeleteAsync($"api/Kho/{id}");
-            // await LoadList();
+            try
+            {
+                await Http.DeleteAsync($"api/Kho/{id}");
+                await LoadList();
+            }
+            catch
+            {
+                msg = "Lỗi khi xoá kho";
+            }
         }
     }
 }

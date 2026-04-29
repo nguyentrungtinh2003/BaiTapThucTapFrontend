@@ -7,7 +7,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 //--frontend------////
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:7153/") });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5130/") });
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
@@ -31,6 +31,6 @@ app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+   .AddInteractiveServerRenderMode();
 
 app.Run();
