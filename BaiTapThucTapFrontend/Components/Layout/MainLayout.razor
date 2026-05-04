@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using BaiTapThucTapFrontend.Models
+@using BaiTapThucTapFrontend.Services
+@inherits LayoutComponentBase
+@inject IJSRuntime JS
+@inject AppState AppState
+
 <div>
 
     <!-- NAVBAR -->
@@ -14,43 +19,58 @@
 
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="" Match="NavLinkMatch.All">Trang Chủ</NavLink>
+                    <NavLink class="nav-link text-white" href="/wms" Match="NavLinkMatch.All">Trang Chủ</NavLink>
+                </li>
+              @*   <li class="nav-item">
+                    <NavLink class="nav-link text-white" href="counter">test btn</NavLink>
+                </li> *@
+
+                @if(AppState.isAdmin == true)
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="don-vi-tinh">Đơn Vị Tính</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="loai-san-pham">Loại Sản Phẩm</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="san-pham">Sản Phẩm</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="nha-cung-cap">Nhà Cung Cấp</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="kho">Kho</NavLink>
+                    </li>
+                    @* <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="nhap-kho">Nhập Kho</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="/">Login</NavLink>
+                    </li> *@
+                }
+                <li class="nav-item">
+                    <NavLink class="nav-link text-white" href="nhap-kho">Nhập Kho</NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="counter">test btn</NavLink>
+                    <NavLink class="nav-link text-white" href="/">Login</NavLink>
                 </li>
 
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="don-vi-tinh">Đơn Vị Tính</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="loai-san-pham">Loại Sản Phẩm</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="san-pham">Sản Phẩm</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="nha-cung-cap">Nha Cung Cap</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="kho">Kho</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="nhap-kho">Nhap Kho</NavLink>
-                </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center px-3" href="#" data-bs-toggle="dropdown">
                         <img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle me-2">
-                        <span class="text-white">User</span>
+                        <span class="text-white">@AppState.Ma_Dang_Nhap, @AppState.isAdmin</span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                        <li>
+                            <a class="dropdown-item text-danger" >Logout</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -63,3 +83,23 @@
     </div>
 
 </div>
+
+@code {
+
+    // protected override void OnInitialized()
+    // {
+    //     AppState.OnChange += StateHasChanged;
+    // }
+
+    public void Dispose()
+    {
+        AppState.OnChange -= StateHasChanged;
+    }
+
+    async Task Logout()
+    {
+        await JS.InvokeVoidAsync("localStorage.removeItem", "maDangNhap");
+        await JS.InvokeVoidAsync("localStorage.removeItem", "khoId");
+        await JS.InvokeVoidAsync("location.reload");
+    }
+}

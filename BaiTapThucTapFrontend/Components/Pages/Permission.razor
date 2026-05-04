@@ -1,0 +1,110 @@
+﻿@page "/"
+@using System.Net.Http.Json
+@inject HttpClient Http
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+@using BaiTapThucTapFrontend.Models
+@using BaiTapThucTapFrontend.Services
+@inject NavigationManager Navigation
+@inject AppState AppState
+
+<div class="overlay">
+    <div class="form-popup card shadow">
+        <div class="card-header text-white" style="background:#6f42c1">
+            <div class="card-header text-white d-flex justify-content-between"
+                 style="background:#6f42c1">
+                <h5 class="mb-0">
+                   Đãng Nhập
+                </h5>
+                <button class="btn btn-sm btn-light"
+                        @onclick="() => showForm = false">
+                    X
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="mb-3">
+                <label>Mã Đãng Nhập</label>
+                <input class="form-control" @bind="Ma_Dang_Nhap" placeholder="VD username..." />
+            </div>
+
+            <div class="mb-3">
+                <label>Chọn kho</label>
+                <select class="form-control" @bind="Kho_ID">
+                    <option value="">-- Chọn kho --</option>
+                    @foreach (var kho in dsKho)
+                    {
+                        <option value="@kho.Id">@kho.Ten_Kho</option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn text-white" style="background-color:#6f42c1"
+                    @onclick="XacNhan">
+                Xác nhận
+            </button>
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div class="alert alert-success mt-3">@message</div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Ma_Dang_Nhap = "";
+    private int? Kho_ID;
+    private List<KhoDto>? dsKho = new();
+    private string message;
+    private bool showForm = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dsKho = await Http.GetFromJsonAsync<List<KhoDto>>("api/Kho");
+    }
+
+    private async Task XacNhan()
+    {
+        if (string.IsNullOrEmpty(Ma_Dang_Nhap))
+        {
+            message = "Vui lòng nhập mã đăng nhập!";
+            return;
+        }
+
+        if (Kho_ID == null)
+        {
+            message = "Vui lòng chọn kho!";
+            return;
+        }
+
+        // 👉 Gọi API check quyền
+        var result = await Http.PostAsJsonAsync(
+            $"api/Permission/login", new { Ma_Dang_Nhap, Kho_ID }
+        );
+
+        if (result.IsSuccessStatusCode)
+        {
+            int khoId = Kho_ID.Value;
+
+            message = $"✅ Đăng nhập thành công vào kho {khoId}";
+
+            // // lưu localStorage
+            // await JS.InvokeVoidAsync("localStorage.setItem", "maDangNhap", Ma_Dang_Nhap);
+            // await JS.InvokeVoidAsync("localStorage.setItem", "khoId", khoId.ToString());
+
+            var data = await result.Content.ReadFromJsonAsync<PermissionDto>();
+            AppState.Ma_Dang_Nhap = data.Ma_Dang_Nhap;
+            AppState.isAdmin = data.isAdmin;
+            AppState.Kho_ID = data.Kho_ID;
+
+            AppState.Notify();
+
+            Navigation.NavigateTo("/wms");
+        }
+        else
+        {
+            message = "❌ Bạn không có quyền vào kho này!" + result;
+        }
+    }
+}

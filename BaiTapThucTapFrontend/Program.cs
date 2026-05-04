@@ -1,10 +1,15 @@
 ﻿using BaiTapThucTapFrontend.Components;
+using BaiTapThucTapFrontend.Models;
+using BaiTapThucTapFrontend.Services;
+using System.Net.NetworkInformation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<AppState>();
 
 //--frontend------////
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5130/") });

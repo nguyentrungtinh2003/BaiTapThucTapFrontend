@@ -32,9 +32,14 @@ a, .btn-link {
 
 /* form popup */
 .form-popup {
-    width: 500px;
+   /* width: 800px;
+    border-radius: 20px;
+    animation: fadeIn 0.3s ease;*/
+    width: 90%; /* 🔥 chiếm 90% màn hình */
+    max-width: 1200px; /* 🔥 giới hạn max */
+    height: 90vh; /* 🔥 cao gần full */
+    overflow-y: auto; /* 🔥 scroll nếu dài */
     border-radius: 10px;
-    animation: fadeIn 0.3s ease;
 }
 
 /* animation nhẹ */

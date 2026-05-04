@@ -69,7 +69,7 @@
                         <input class="form-control" @bind="model.Ten_San_Pham" placeholder="VD Sản phẩm 1,..."/>
                     </div>
                     <div class="mb-3">
-                        <label>Kho</label>
+                        <label>Loại sản phẩm</label>
                         <select class="form-select" @bind="model.Loai_San_Pham_ID">
                             <option value="">-- Chọn loại sản phẩm --</option>
                             @foreach (var lsp in listLoaiSanPham)
@@ -148,8 +148,8 @@
                             <td>@item.Id</td>
                             <td>@item.Ma_San_Pham</td>
                             <td>@item.Ten_San_Pham</td>
-                            <td>@item.Don_Vi_Tinh_ID</td>
-                            <td>@item.Loai_San_Pham_ID</td>
+                            <td>@item.Ten_LSP</td>
+                            <td>@item.Ten_Don_Vi_Tinh</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
                                 <button class="btn btn-sm btn-warning me-1" @onclick="() => LoadEdit(item)">Sửa</button>
@@ -186,6 +186,7 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadList();
+        await LoadDropdown();
     }
 
     private async Task LoadList()
@@ -281,7 +282,7 @@
 
     private async Task Delete(int id)
     {
-        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa san pham này?");
+        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa sản phẩm này?");
         if (confirm)
         {
             try
