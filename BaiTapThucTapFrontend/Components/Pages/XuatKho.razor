@@ -1,4 +1,4 @@
-﻿@page "/nhap-kho"
+﻿@page "/xuat-kho"
 @using System.Net.Http.Json
 @using BaiTapThucTapFrontend.Models
 @inject HttpClient Http
@@ -6,51 +6,51 @@
 @rendermode InteractiveServer
 
 <div class="container-fluid">
-    <h3 class="mt-3">Quản Lý Nhập Kho</h3>
+    <h3 class="mt-3">Quản Lý Xuất Kho</h3>
 
     <button class="btn text-white mb-3"
             style="background-color:#6f42c1"
             @onclick="() => OpenAddForm()">
-        + Thêm phiếu nhập kho
+        + Thêm phiếu xuất kho
     </button>
 
     @* Form nhập liệu nhanh *@
-   @*  <div class="card my-3">
-        <div class="card-body bg-light">
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Số phiếu nhập kho (*)</label>
-                    <input type="text" class="form-control" @bind="model.So_Phieu_Nhap_Kho" placeholder="Ví dụ: nk001,nk002..." />
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Kho (*)</label>
-                    <input type="text" class="form-control" @bind="model.Kho_ID" placeholder="Ví dụ: Kho1, Kho2,..." />
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Nhà cung cấp (*)</label>
-                    <input type="text" class="form-control" @bind="model.NCC_ID" placeholder="" />
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Ngày nhập kho (*)</label>
-                    <input type="text" class="form-control" @bind="model.Ngay_Nhap_Kho" placeholder="" />
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Ghi chú</label>
-                    <input type="text" class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có..." />
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button class="btn w-100 text-white" style="background-color:#6f42c1" @onclick="HandleSave">
-                        <i class="bi bi-save"></i> Lưu dữ liệu
-                    </button>
-                </div>
-            </div>
-            @if (!string.IsNullOrEmpty(msg))
-            {
-                <div class="alert alert-info mt-2 py-1">@msg</div>
-            }
-        </div>
+    @*  <div class="card my-3">
+    <div class="card-body bg-light">
+    <div class="row g-3">
+    <div class="col-md-4">
+    <label class="form-label">Số phiếu nhập kho (*)</label>
+    <input type="text" class="form-control" @bind="model.So_Phieu_Nhap_Kho" placeholder="Ví dụ: nk001,nk002..." />
     </div>
- *@
+    <div class="col-md-4">
+    <label class="form-label">Kho (*)</label>
+    <input type="text" class="form-control" @bind="model.Kho_ID" placeholder="Ví dụ: Kho1, Kho2,..." />
+    </div>
+    <div class="col-md-4">
+    <label class="form-label">Nhà cung cấp (*)</label>
+    <input type="text" class="form-control" @bind="model.NCC_ID" placeholder="" />
+    </div>
+    <div class="col-md-4">
+    <label class="form-label">Ngày nhập kho (*)</label>
+    <input type="text" class="form-control" @bind="model.Ngay_Nhap_Kho" placeholder="" />
+    </div>
+    <div class="col-md-6">
+    <label class="form-label">Ghi chú</label>
+    <input type="text" class="form-control" @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có..." />
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+    <button class="btn w-100 text-white" style="background-color:#6f42c1" @onclick="HandleSave">
+    <i class="bi bi-save"></i> Lưu dữ liệu
+    </button>
+    </div>
+    </div>
+    @if (!string.IsNullOrEmpty(msg))
+    {
+    <div class="alert alert-info mt-2 py-1">@msg</div>
+    }
+    </div>
+    </div>
+    *@
 
     @if (showForm)
     {
@@ -61,7 +61,7 @@
                 <div class="card-header text-white d-flex justify-content-between"
                      style="background:#6f42c1">
                     <h5 class="mb-0">
-                        @(isEdit ? "Cập nhật phiếu nhập" : "Thêm phiếu nhập")
+                        @(isEdit ? "Cập nhật " : "Thêm ") phiếu xuất
                     </h5>
                     <button class="btn btn-sm btn-danger text-white"
                             @onclick="() => showForm = false">
@@ -77,15 +77,13 @@
                         <div class="col-md-3">
                             <label>Số phiếu</label>
                             <input class="form-control"
-                                   @bind="model.So_Phieu_Nhap_Kho"
-                                   />
+                                   @bind="model.So_Phieu_Xuat_Kho" />
                         </div>
 
                         <div class="col-md-3">
                             <label>Kho</label>
                             <select class="form-select"
-                                    @bind="model.Kho_ID"
-                                 >
+                                    @bind="model.Kho_ID">
                                 <option value="">-- chọn kho --</option>
                                 @foreach (var kho in listKho)
                                 {
@@ -95,34 +93,19 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>Nhà cung cấp</label>
-                            <select class="form-select"
-                                    @bind="model.NCC_ID"
-                                  >
-                                <option value="">-- chọn NCC --</option>
-                                @foreach (var ncc in listNCC)
-                                {
-                                    <option value="@ncc.Id">@ncc.Ten_NCC</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
                             <label>Ngày nhập</label>
-                            <InputDate @bind-Value="model.Ngay_Nhap_Kho"
-                                       class="form-control"
-                                      />
+                            <InputDate @bind-Value="model.Ngay_Xuat_Kho"
+                                       class="form-control" />
                         </div>
 
                         <div class="col-md-12">
                             <label>Ghi chú</label>
                             <input class="form-control"
-                                   @bind="model.Ghi_Chu"
-                                  />
+                                   @bind="model.Ghi_Chu" />
                         </div>
 
                     </div>
-					<hr />
+                    <hr />
 
                     <!-- DETAIL -->
                    @*  <button class="btn btn-warning"
@@ -153,7 +136,7 @@
                             {
                                 <tr>
                                     <td>
-                                        @if ( ct.Id == 0) // thêm mới
+                                        @if (ct.Id == 0) // thêm mới
                                         {
                                             <select class="form-select" @bind="ct.San_Pham_ID">
                                                 <option value="">-- chọn --</option>
@@ -174,17 +157,17 @@
                                     <td>
                                         <input type="number"
                                                class="form-control text-end"
-                                               @bind="ct.SL_Nhap" />
+                                               @bind="ct.SL_Xuat" />
                                     </td>
 
                                     <td>
                                         <input type="number"
                                                class="form-control text-end"
-                                               @bind="ct.Don_Gia_Nhap" />
+                                               @bind="ct.Don_Gia_Xuat" />
                                     </td>
 
                                     <td class="text-end">
-                                        @(ct.SL_Nhap * ct.Don_Gia_Nhap)
+                                        @(ct.SL_Xuat * ct.Don_Gia_Xuat)
                                     </td>
 
                                     <td class="text-center">
@@ -201,7 +184,7 @@
                     <!-- TOTAL -->
                     <div class="text-end fw-bold">
                         Tổng tiền:
-                        @chiTietList.Sum(x => x.SL_Nhap * x.Don_Gia_Nhap)
+                        @chiTietList.Sum(x => x.SL_Xuat * x.Don_Gia_Xuat)
                     </div>
 
                     <hr />
@@ -220,7 +203,7 @@
                         </button>
                     </div>
 
-                    @if(!string.IsNullOrEmpty(msg))
+                    @if (!string.IsNullOrEmpty(msg))
                     {
                         <div class="alert alert-info mt-2">@msg</div>
                     }
@@ -238,7 +221,7 @@
                 <div class="card-header text-white d-flex justify-content-between"
                      style="background:#6f42c1">
                     <h5 class="mb-0">
-                        @(isEdit ? "Cập nhật phiếu nhập" : "Thêm phiếu nhập")
+                        @(isEdit ? "Cập nhật " : "Thêm ") phiếu xuất
                     </h5>
                     <button class="btn btn-sm btn-danger text-white"
                             @onclick="() => isEditHeaderForm = false">
@@ -254,7 +237,7 @@
                         <div class="col-md-3">
                             <label>Số phiếu</label>
                             <input class="form-control"
-                                   @bind="model.So_Phieu_Nhap_Kho" />
+                                   @bind="model.So_Phieu_Xuat_Kho" />
                         </div>
 
                         <div class="col-md-3">
@@ -270,20 +253,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>Nhà cung cấp</label>
-                            <select class="form-select"
-                                    @bind="model.NCC_ID">
-                                <option value="">-- chọn NCC --</option>
-                                @foreach (var ncc in listNCC)
-                                {
-                                    <option value="@ncc.Id">@ncc.Ten_NCC</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
                             <label>Ngày nhập</label>
-                            <InputDate @bind-Value="model.Ngay_Nhap_Kho"
+                            <InputDate @bind-Value="model.Ngay_Xuat_Kho"
                                        class="form-control" />
                         </div>
 
@@ -328,7 +299,7 @@
                 <div class="card-header text-white d-flex justify-content-between"
                      style="background:#6f42c1">
                     <h5 class="mb-0">
-                        @(isEdit ? "Cập nhật phiếu nhập" : "Thêm phiếu nhập")
+                        @(isEdit ? "Cập nhật " : "Thêm ") phiếu xuất
                     </h5>
                     <button class="btn btn-sm btn-danger text-white"
                             @onclick="() => isEditDetailForm = false">
@@ -344,7 +315,7 @@
                         <div class="col-md-3">
                             <label>Số phiếu</label>
                             <input class="form-control"
-                                   @bind="model.So_Phieu_Nhap_Kho" disabled = "@isEditDetailForm"/>
+                                   @bind="model.So_Phieu_Xuat_Kho" disabled="@isEditDetailForm" />
                         </div>
 
                         <div class="col-md-3">
@@ -360,21 +331,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>Nhà cung cấp</label>
-                            <select class="form-select"
-                                    disabled="@isEditDetailForm"
-                                    @bind="model.NCC_ID">
-                                <option value="">-- chọn NCC --</option>
-                                @foreach (var ncc in listNCC)
-                                {
-                                    <option value="@ncc.Id">@ncc.Ten_NCC</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
                             <label>Ngày nhập</label>
-                            <InputDate @bind-Value="model.Ngay_Nhap_Kho"
+                            <InputDate @bind-Value="model.Ngay_Xuat_Kho"
                                        disabled="@isEditDetailForm"
                                        class="form-control" />
                         </div>
@@ -390,7 +348,7 @@
                     <hr />
 
                     <!-- DETAIL -->
-                 @*    <button class="btn btn-warning"
+                   @*  <button class="btn btn-warning"
                             @onclick="EnableEditDetail">
                         ✏️ Sửa chi tiết
                     </button> *@
@@ -420,13 +378,13 @@
                                     <td>
                                         @if (ct.Id == 0) // thêm mới
                                         {
-                                           @*  <select class="form-select" @bind="ct.San_Pham_ID">
-                                                <option value="">-- chọn --</option>
-                                                @foreach (var sp in listSanPham)
-                                                {
-                                                    <option value="@sp.Id">@sp.Ten_San_Pham</option>
-                                                }
-                                            </select> *@
+                                            @*  <select class="form-select" @bind="ct.San_Pham_ID">
+                                <option value="">-- chọn --</option>
+                                @foreach (var sp in listSanPham)
+                                {
+                                <option value="@sp.Id">@sp.Ten_San_Pham</option>
+                                }
+                                </select> *@
                                             <input class="form-control"
                                                    value="@GetTenSP(ct.San_Pham_ID)"
                                                    disabled />
@@ -442,17 +400,17 @@
                                     <td>
                                         <input type="number"
                                                class="form-control text-end"
-                                               @bind="ct.SL_Nhap" />
+                                               @bind="ct.SL_Xuat" />
                                     </td>
 
                                     <td>
                                         <input type="number"
                                                class="form-control text-end"
-                                               @bind="ct.Don_Gia_Nhap" />
+                                               @bind="ct.Don_Gia_Xuat" />
                                     </td>
 
                                     <td class="text-end">
-                                        @(ct.SL_Nhap * ct.Don_Gia_Nhap)
+                                        @(ct.SL_Xuat * ct.Don_Gia_Xuat)
                                     </td>
 
                                     <td class="text-center">
@@ -469,7 +427,7 @@
                     <!-- TOTAL -->
                     <div class="text-end fw-bold">
                         Tổng tiền:
-                        @chiTietList.Sum(x => x.SL_Nhap * x.Don_Gia_Nhap)
+                        @chiTietList.Sum(x => x.SL_Xuat * x.Don_Gia_Xuat)
                     </div>
 
                     <hr />
@@ -504,10 +462,9 @@
             <thead class="">
                 <tr>
                     <td>Id</td>
-                    <td>Số phiếu nhập kho</td>
+                    <td>Số phiếu xuất kho</td>
                     <td>Kho</td>
-                    <td>Nhà cung cấp</td>
-                    <td>Ngày nhập kho</td>
+                    <td>Ngày xuất kho</td>
                     <td>Ghi chú</td>
                     <td class="text-center" width="180">Thao tác</td>
                 </tr>
@@ -527,10 +484,9 @@
                     {
                         <tr>
                             <td>@item.Id</td>
-                            <td>@item.So_Phieu_Nhap_Kho</td>
+                            <td>@item.So_Phieu_Xuat_Kho</td>
                             <td>@item.Ten_Kho</td>
-                            <td>@item.Ten_NCC</td>
-                            <td>@item.Ngay_Nhap_Kho</td>
+                            <td>@item.Ngay_Xuat_Kho</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
                                 <div class="d-flex gap-2">
@@ -570,9 +526,8 @@
 
 @code {
 
-    private List<NhapKhoDto>? listData;
+    private List<XuatKhoDto>? listData;
     private List<KhoDto>? listKho = new();
-    private List<NhaCungCapDto>? listNCC = new();
 
     // List<NhapKhoDto> listData = new List<NhapKhoDto>
     // {
@@ -583,7 +538,7 @@
     //     new NhapKhoDto{Id = 5,So_Phieu_Nhap_Kho = "005",Kho_ID = 5, NCC_ID = 5,Ngay_Nhap_Kho = new DateTime(2026,1,5), Ghi_Chu = "Note", Details = new List<NhapKhoDetailDto> { new NhapKhoDetailDto {Id = 5, Nhap_Kho_ID = 5, San_Pham_ID = 5, SL_Nhap = 4, Don_Gia_Nhap = 0m } } },
     // };
 
-    private NhapKhoDto model = new();
+    private XuatKhoDto model = new();
     private bool showForm = false;
     private string msg = "";
 
@@ -593,15 +548,15 @@
 
     // chi tiet
 
-    private List<NhapKhoDetailDto> chiTietList = new();
+    private List<XuatKhoDetailDto> chiTietList = new();
     private List<SanPhamDto>? listSanPham = new();
 
     private void AddCT()
     {
-        chiTietList.Add(new NhapKhoDetailDto());
+        chiTietList.Add(new XuatKhoDetailDto());
     }
 
-    private void RemoveCT(NhapKhoDetailDto ct)
+    private void RemoveCT(XuatKhoDetailDto ct)
     {
         chiTietList.Remove(ct);
     }
@@ -633,11 +588,11 @@
     {
         try
         {
-            listData = await Http.GetFromJsonAsync<List<NhapKhoDto>>("api/NhapKho");
+            listData = await Http.GetFromJsonAsync<List<XuatKhoDto>>("api/XuatKho");
         }
         catch
         {
-            msg = "Lỗi khi lấy thông tin nhập kho";
+            msg = "Lỗi khi lấy thông tin xuất kho";
         }
     }
 
@@ -646,19 +601,18 @@
         try
         {
             listKho = await Http.GetFromJsonAsync<List<KhoDto>>("api/Kho");
-            listNCC = await Http.GetFromJsonAsync<List<NhaCungCapDto>>("api/NhaCungCap");
             listSanPham = await Http.GetFromJsonAsync<List<SanPhamDto>>("api/SanPham");
         }
         catch
         {
-            msg = "Lỗi không lấy được dữ liệu kho hoặc nhà cung cấp hoặc sản phẩm";
+            msg = "Lỗi không lấy được dữ liệu kho hoặc sản phẩm";
         }
     }
-// reset data model when add nhapkho
+    // reset data model when add nhapkho
     void ResetForm()
     {
-        model = new NhapKhoDto();
-        chiTietList = new List<NhapKhoDetailDto>();
+        model = new XuatKhoDto();
+        chiTietList = new List<XuatKhoDetailDto>();
         isEdit = false;
         msg = "";
     }
@@ -671,27 +625,21 @@
     //-------------
     private async Task HandleSave()
     {
-        if (string.IsNullOrEmpty(model.So_Phieu_Nhap_Kho))
+        if (string.IsNullOrEmpty(model.So_Phieu_Xuat_Kho))
         {
-            msg = "Vui lòng nhập số phiếu nhập kho!";
+            msg = "Vui lòng nhập số phiếu xuất kho!";
             return;
         }
 
-        if(model.Kho_ID <= 0)
+        if (model.Kho_ID <= 0)
         {
             msg = "Kho không hợp lệ";
             return;
         }
 
-        if(model.NCC_ID <= 0)
+        if (model.Ngay_Xuat_Kho == null)
         {
-            msg = "Nhà cung cấp không hợp lệ";
-            return;
-        }
-
-        if(model.Ngay_Nhap_Kho == null)
-        {
-            msg = "Vui lòng chọn ngày nhập kho";
+            msg = "Vui lòng chọn ngày xuất kho";
             return;
         }
 
@@ -708,19 +656,19 @@
 
             try
             {
-                await Http.PutAsJsonAsync($"api/NhapKho/{model.Id}", model);
+                await Http.PutAsJsonAsync($"api/XuatKho/{model.Id}", model);
                 msg = "Cập nhật thành công!";
             }
             catch
             {
-                msg = "Lỗi khi cập nhật nhập kho";
+                msg = "Lỗi khi cập nhật xuất kho";
             }
         }
         else
         {
             try
             {
-                var res = await Http.PostAsJsonAsync("api/NhapKho", model);
+                var res = await Http.PostAsJsonAsync("api/XuatKho", model);
                 if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
                 else
                 {
@@ -729,8 +677,8 @@
                 }
             }
             catch
-            {  
-                msg = "Lỗi khi thêm phiếu nhập kho";
+            {
+                msg = "Lỗi khi thêm phiếu xuất kho";
             }
         }
 
@@ -741,9 +689,9 @@
 
     private async Task HandleSaveHeader()
     {
-        if (string.IsNullOrEmpty(model.So_Phieu_Nhap_Kho))
+        if (string.IsNullOrEmpty(model.So_Phieu_Xuat_Kho))
         {
-            msg = "Vui lòng nhập số phiếu nhập kho!";
+            msg = "Vui lòng nhập số phiếu xuất kho!";
             return;
         }
 
@@ -753,15 +701,9 @@
             return;
         }
 
-        if (model.NCC_ID <= 0)
+        if (model.Ngay_Xuat_Kho == null)
         {
-            msg = "Nhà cung cấp không hợp lệ";
-            return;
-        }
-
-        if (model.Ngay_Nhap_Kho == null)
-        {
-            msg = "Vui lòng chọn ngày nhập kho";
+            msg = "Vui lòng chọn ngày xuất kho";
             return;
         }
 
@@ -776,21 +718,17 @@
 
         try
         {
-            var res = await Http.PostAsJsonAsync("api/XNKNhapKho/adjustment", model);
-            var content = await res.Content.ReadAsStringAsync();
-
-            if (res.IsSuccessStatusCode)
-            {
-                msg = "Thêm mới thành công!";
-            }
+            var res = await Http.PostAsJsonAsync("api/XNKXuatKho/adjustment", model);
+            if (res.IsSuccessStatusCode) msg = "Cập nhật thành công!";
             else
             {
-                msg = $"Lỗi: {content}";
+                var error = await res.Content.ReadAsStringAsync();
+                msg = error;
             }
         }
         catch
         {
-            msg = "Lỗi khi cập nhật phiếu nhập kho";
+            msg = "Lỗi khi cập nhật phiếu xuất kho";
         }
 
         model = new();
@@ -810,8 +748,8 @@
         var headerId = model.Id;
         try
         {
-            var res = await Http.PostAsJsonAsync("api/XNKNhapKho/adjustment/{headerId}", model);
-            if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
+            var res = await Http.PostAsJsonAsync("api/XNKXuatKho/adjustment/{headerId}", model);
+            if (res.IsSuccessStatusCode) msg = "Cập nhật thành công!";
             else
             {
                 var error = await res.Content.ReadAsStringAsync();
@@ -820,7 +758,7 @@
         }
         catch
         {
-            msg = "Lỗi khi cập nhật phiếu nhập kho";
+            msg = "Lỗi khi cập nhật phiếu xuất kho";
         }
 
         model = new();
@@ -828,10 +766,10 @@
         await LoadList();
     }
 
-    private void LoadEditHeader(NhapKhoDto item)
+    private void LoadEditHeader(XuatKhoDto item)
     {
-        model = new NhapKhoDto { Id = item.Id, So_Phieu_Nhap_Kho = item.So_Phieu_Nhap_Kho,Kho_ID = item.Kho_ID,NCC_ID = item.NCC_ID,Ngay_Nhap_Kho = item.Ngay_Nhap_Kho,Ghi_Chu = item.Ghi_Chu };
-        chiTietList = item.ChiTiets?.ToList() ?? new List<NhapKhoDetailDto>();
+        model = new XuatKhoDto { Id = item.Id, So_Phieu_Xuat_Kho = item.So_Phieu_Xuat_Kho, Kho_ID = item.Kho_ID, Ngay_Xuat_Kho = item.Ngay_Xuat_Kho, Ghi_Chu = item.Ghi_Chu };
+        chiTietList = item.ChiTiets?.ToList() ?? new List<XuatKhoDetailDto>();
 
         isEdit = true;
         isEditHeaderForm = true;
@@ -839,10 +777,10 @@
         msg = "Đang ở chế độ chỉnh sửa.";
     }
 
-    private void LoadEditDetail(NhapKhoDto item)
+    private void LoadEditDetail(XuatKhoDto item)
     {
-        model = new NhapKhoDto { Id = item.Id, So_Phieu_Nhap_Kho = item.So_Phieu_Nhap_Kho, Kho_ID = item.Kho_ID, NCC_ID = item.NCC_ID, Ngay_Nhap_Kho = item.Ngay_Nhap_Kho, Ghi_Chu = item.Ghi_Chu };
-        chiTietList = item.ChiTiets?.ToList() ?? new List<NhapKhoDetailDto>();
+        model = new XuatKhoDto { Id = item.Id, So_Phieu_Xuat_Kho = item.So_Phieu_Xuat_Kho, Kho_ID = item.Kho_ID, Ngay_Xuat_Kho = item.Ngay_Xuat_Kho, Ghi_Chu = item.Ghi_Chu };
+        chiTietList = item.ChiTiets?.ToList() ?? new List<XuatKhoDetailDto>();
 
         isEdit = true;
         isEditDetailForm = true;
@@ -852,17 +790,17 @@
 
     private async Task Delete(int id)
     {
-        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa phiếu nhập này?");
+        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa phiếu xuất này?");
         if (confirm)
         {
             try
             {
-                await Http.DeleteAsync($"api/NhapKho/{id}");
+                await Http.DeleteAsync($"api/XuatKho/{id}");
                 await LoadList();
             }
             catch
             {
-                msg = "Lỗi khi xoá nhập kho";
+                msg = "Lỗi khi xoá xuất kho";
             }
         }
     }

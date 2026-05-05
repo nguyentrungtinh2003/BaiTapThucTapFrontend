@@ -6,7 +6,6 @@
 @using BaiTapThucTapFrontend.Models
 @using BaiTapThucTapFrontend.Services
 @inject NavigationManager Navigation
-@inject AppState AppState
 
 <div class="overlay">
     <div class="form-popup card shadow">
@@ -15,11 +14,7 @@
                  style="background:#6f42c1">
                 <h5 class="mb-0">
                    Đãng Nhập
-                </h5>
-                <button class="btn btn-sm btn-light"
-                        @onclick="() => showForm = false">
-                    X
-                </button>
+				</h5>
             </div>
         </div>
 
@@ -58,6 +53,8 @@
     private List<KhoDto>? dsKho = new();
     private string message;
     private bool showForm = true;
+
+    [Inject] AppState AppState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,8 +95,9 @@
             AppState.isAdmin = data.isAdmin;
             AppState.Kho_ID = data.Kho_ID;
 
+            // gọi notify sau khi set xong
             AppState.Notify();
-
+            await Task.Delay(50);
             Navigation.NavigateTo("/wms");
         }
         else

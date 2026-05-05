@@ -84,8 +84,8 @@
 
     @* Bảng hiển thị *@
     <div class="table-responsive">
-        <table class="table table-striped table-hover border">
-            <thead class="table-dark">
+        <table class="table table-striped table-hover table-purple border">
+            <thead class="">
                 <tr>
                     <th>Id</th>
                     <th>Tên đơn vị tính</th>
@@ -111,8 +111,8 @@
                             <td>@item.Ten_Don_Vi_Tinh</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-warning me-1" @onclick="() => LoadEdit(item)">Sửa</button>
-                                <button class="btn btn-sm btn-danger" @onclick="() => Delete(item.Id)">Xóa</button>
+                                <button class="btn btn-sm btn-warning me-1" @onclick="() => LoadEdit(item)"> <i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Delete(item.Id)"> <i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                     }
@@ -160,7 +160,7 @@
     {
         if (string.IsNullOrEmpty(model.Ten_Don_Vi_Tinh))
         {
-            msg = "Vui lòng nhập ten don vi tinh!";
+            msg = "Vui lòng nhập tên đơn vị tính!";
             return;
         }
 
@@ -214,7 +214,7 @@
 
     private async Task Delete(int id)
     {
-        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa don vi tinh này?");
+        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa đơn vị tính này?");
         if (confirm)
         {
             try

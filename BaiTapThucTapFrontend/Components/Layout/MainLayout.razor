@@ -3,11 +3,12 @@
 @inherits LayoutComponentBase
 @inject IJSRuntime JS
 @inject AppState AppState
+@inject NavigationManager Navigation
 
 <div>
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg px-4 shadow" style="background-color : #6f42c1">
+    <nav class="navbar navbar-expand-lg px-4 shadow navbar-custom">
 
         <a class="navbar-brand fw-bold text-white" href="">WMS</a>
 
@@ -17,7 +18,7 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
 
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto flex-wrap gap-2">
                 <li class="nav-item">
                     <NavLink class="nav-link text-white" href="/wms" Match="NavLinkMatch.All">Trang Chủ</NavLink>
                 </li>
@@ -42,15 +43,12 @@
                     <li class="nav-item">
                         <NavLink class="nav-link text-white" href="kho">Kho</NavLink>
                     </li>
-                    @* <li class="nav-item">
-                        <NavLink class="nav-link text-white" href="nhap-kho">Nhập Kho</NavLink>
-                    </li>
-                    <li class="nav-item">
-                        <NavLink class="nav-link text-white" href="/">Login</NavLink>
-                    </li> *@
                 }
                 <li class="nav-item">
                     <NavLink class="nav-link text-white" href="nhap-kho">Nhập Kho</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link text-white" href="xuat-kho">Xuất Kho</NavLink>
                 </li>
                 <li class="nav-item">
                     <NavLink class="nav-link text-white" href="/">Login</NavLink>
@@ -59,9 +57,11 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center px-3" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center px-3" data-bs-toggle="dropdown">
                         <img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle me-2">
-                        <span class="text-white">@AppState.Ma_Dang_Nhap, @AppState.isAdmin</span>
+                        <span class="text-white d-none d-md-inline">
+                            @AppState.Ma_Dang_Nhap
+                        </span>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end shadow">
@@ -69,7 +69,7 @@
                         <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item text-danger" >Logout</a>
+                            <a class="dropdown-item text-danger" @onclick="() => Logout()">Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -86,20 +86,42 @@
 
 @code {
 
-    // protected override void OnInitialized()
-    // {
-    //     AppState.OnChange += StateHasChanged;
-    // }
+    protected override void OnInitialized()
+    {
+        AppState.OnChange += Refresh;
+    }
+
+    void Refresh()
+    {
+        InvokeAsync(StateHasChanged);
+    }
 
     public void Dispose()
     {
-        AppState.OnChange -= StateHasChanged;
+        AppState.OnChange -= Refresh;
     }
+
+
+        protected override void OnAfterRender(bool firstRender)
+        {
+            Console.WriteLine("User: " + AppState.Ma_Dang_Nhap);
+        }
+  
 
     async Task Logout()
     {
+        // clear AppState (RAM)
+        AppState.Ma_Dang_Nhap = "";
+        AppState.isAdmin = false;
+        AppState.Kho_ID = 0;
+
+        AppState.Notify();
+
+        // clear localStorage (nếu có dùng)
         await JS.InvokeVoidAsync("localStorage.removeItem", "maDangNhap");
         await JS.InvokeVoidAsync("localStorage.removeItem", "khoId");
-        await JS.InvokeVoidAsync("location.reload");
+
+        // chuyển về login
+        Navigation.NavigateTo("/");
     }
 }
