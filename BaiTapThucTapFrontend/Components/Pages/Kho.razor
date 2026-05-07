@@ -111,8 +111,10 @@
                             <td>@item.Ten_Kho</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-warning me-1" @onclick="() => LoadEdit(item)"> <i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-sm btn-danger" @onclick="() => Delete(item.Id)"> <i class="bi bi-trash"></i></button>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button class="btn btn-sm btn-warning rounded-circle text-white shadow-sm" @onclick="() => LoadEdit(item)"> <i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-sm btn-danger rounded-circle text-white shadow-sm" @onclick="() => Delete(item.Id)"> <i class="bi bi-trash"></i></button>
+                                </div>
                             </td>
                         </tr>
                         i++;

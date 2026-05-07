@@ -1,0 +1,122 @@
+﻿@page "/xuat-kho-print/{Id:int}"
+@inject HttpClient Http
+@using BaiTapThucTapFrontend.Models
+
+@if (model == null)
+{
+    <div class="no-print loading">Đang tải dữ liệu phiếu xuất...</div>
+}
+else
+{
+    <div class="print-container">
+        <div class="text-center">
+            <h1 class="main-title">PHIẾU XUẤT KHO</h1>
+            <p class="date-text">Ngày @model.Ngay_Xuat_Kho</p>
+            <p class="no-text">Số: <b>@model.So_Phieu_Xuat_Kho</b></p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">I. Thông tin chung</h3>
+            <div class="info-grid">
+                <div class="label">1. Lệnh giao hàng:</div>
+                <div class="value"></div>
+
+                <div class="label">2. Cửa hàng:</div>
+                <div class="value"></div>
+
+                <div class="label">3. Kho:</div>
+                <div class="value">@model.Ten_Kho</div>
+
+                <div class="label">4. Ghi chú:</div>
+                <div class="value">@model.Ghi_Chu</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">II. Thông tin hàng</h3>
+            <table class="table-xuat">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">STT</th>
+                        <th style="width: 120px;">Mã Hàng</th>
+                        <th>Tên Hàng</th>
+                        <th style="width: 80px;">PO</th>
+                        <th style="width: 100px;">Số Chỉ Lệnh</th>
+                        <th style="width: 60px;">SL</th>
+                        <th style="width: 60px;">ĐVT</th>
+                        <th style="width: 100px;">Kiểm Kê</th>
+                        <th>Ghi Chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 1;
+                    }
+                    @foreach (var item in model.ChiTiets)
+                    {
+                        <tr>
+                            <td>@(i++.ToString("D2"))</td>
+                            
+                            <td class="text-left">@item.Ma_San_Pham</td>
+                            <td class="text-left">@item.Ten_San_Pham</td>
+                            <td></td>
+                            <td></td>
+                            <td>@item.SL_Xuat</td>
+                            <td>@item.Ten_Don_Vi_tinh</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">III. Kết luận</h3>
+            <p>1. Tổng số lượng thực xuất (viết bằng số): <b>@model.ChiTiets.Sum(x => x.SL_Xuat)</b></p>
+            <p>2. Tổng số lượng thực xuất (viết bằng chữ): <i>......................................................................</i></p>
+            <p>3. Mô tả khác biệt:</p>
+            <div class="description-box"></div>
+        </div>
+
+        <div class="signature-grid">
+            <div class="sig-item"><b>Người lập phiếu</b></div>
+            <div class="sig-item"><b>Người nhận hàng</b></div>
+            <div class="sig-item"><b>Điều phối</b></div>
+            <div class="sig-item"><b>Giám đốc</b></div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private XuatKhoDto? model; // Đảm bảo bạn đã có DTO này
+    private string msg;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            model = await Http.GetFromJsonAsync<XuatKhoDto>($"api/XuatKho/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi: " + ex.Message);
+        }
+        await LoadList();
+    }
+
+    private async Task LoadList()
+    {
+        try
+        {
+            listSanPham = await Http.GetFromJsonAsync<List<SanPhamDto>>("api/SanPham");
+        }
+        catch
+        {
+            msg = "Lỗi khi lấy thông tin sản phẩm";
+        }
+    }
+
+    List<SanPhamDto> listSanPham = new();
+}

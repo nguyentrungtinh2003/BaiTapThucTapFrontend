@@ -274,6 +274,138 @@ a, .btn-link {
     border: 1px solid #e0d4ff;
 }
 
+.print-container {
+    width: 210mm;
+    margin: auto;
+    padding: 15mm;
+    font-family: 'Arial', sans-serif; /* Mẫu này dùng Arial nhìn hiện đại hơn */
+    color: black;
+    background: white;
+}
+
+.main-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.date-text {
+    font-style: italic;
+    margin: 0;
+}
+
+.no-text {
+    margin-top: 5px;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+/* Thông tin chung grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 5px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+/* Table styling giống hệt ảnh */
+.table-xuat {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .table-xuat th {
+        background-color: #ffff00; /* Màu vàng giống ảnh mẫu */
+        border: 1px solid black;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .table-xuat td {
+        border: 1px solid black;
+        padding: 6px;
+        text-align: center;
+        font-size: 13px;
+    }
+
+.text-left {
+    text-align: left !important;
+}
+/* table chi tiet*/
+table tbody tr {
+    transition: all 0.2s ease;
+}
+
+    table tbody tr:hover {
+        transform: scale(1.002);
+    }
+
+.btn.rounded-circle {
+    transition: all 0.2s ease;
+}
+
+    .btn.rounded-circle:hover {
+        transform: translateY(-2px) scale(1.08);
+    }
+
+.table thead th {
+    vertical-align: middle;
+    border: none;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Kết luận box */
+.description-box {
+    width: 100%;
+    height: 80px;
+    border: 2px solid black;
+    margin-top: 5px;
+}
+
+/* Chữ ký */
+.signature-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.sig-item b {
+    font-size: 14px;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+    }
+
+    .print-container {
+        padding: 0;
+        width: 100%;
+    }
+}
+
 /* animation nhẹ */
 @keyframes fadeIn {
     from {

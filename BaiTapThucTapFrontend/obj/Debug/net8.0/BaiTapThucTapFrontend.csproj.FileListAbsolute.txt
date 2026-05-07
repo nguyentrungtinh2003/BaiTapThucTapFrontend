@@ -11,6 +11,7 @@ D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTa
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.AssemblyInfo.cs
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.csproj.CoreCompileInputs.cache
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.MvcApplicationPartsAssemblyInfo.cache
+D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.sourcelink.json
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\staticwebassets.build.json
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\staticwebassets.development.json
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\staticwebassets\msbuild.BaiTapThucTapFrontend.Microsoft.AspNetCore.StaticWebAssets.props
@@ -27,4 +28,3 @@ D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\refin
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.pdb
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.genruntimeconfig.cache
 D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\ref\BaiTapThucTapFrontend.dll
-D:\MY_PROJECT\BaiTapThucTapFrontend\BaiTapThucTapFrontend\obj\Debug\net8.0\BaiTapThucTapFrontend.sourcelink.json

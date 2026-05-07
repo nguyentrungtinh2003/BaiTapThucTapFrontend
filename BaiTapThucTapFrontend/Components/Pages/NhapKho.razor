@@ -75,7 +75,7 @@
                     <div class="row g-3">
 
                         <div class="col-md-3">
-                            <label>Số phiếu</label>
+                            <label>Số phiếu nhập</label>
                             <input class="form-control"
                                    @bind="model.So_Phieu_Nhap_Kho"
                                    />
@@ -238,7 +238,7 @@
                 <div class="card-header text-white d-flex justify-content-between"
                      style="background:#6f42c1">
                     <h5 class="mb-0">
-                        @(isEdit ? "Cập nhật phiếu nhập" : "Thêm phiếu nhập")
+                        @(isEdit ? "Cập nhật phiếu " : "Thêm phiếu ") nhập
                     </h5>
                     <button class="btn btn-sm btn-danger text-white"
                             @onclick="() => isEditHeaderForm = false">
@@ -328,7 +328,7 @@
                 <div class="card-header text-white d-flex justify-content-between"
                      style="background:#6f42c1">
                     <h5 class="mb-0">
-                        @(isEdit ? "Cập nhật phiếu nhập" : "Thêm phiếu nhập")
+                        @(isEdit ? "Cập nhật phiếu " : "Thêm phiếu ") nhập
                     </h5>
                     <button class="btn btn-sm btn-danger text-white"
                             @onclick="() => isEditDetailForm = false">
@@ -403,68 +403,120 @@
                         </button>
                     </div>
 
-                    <table class="table table-striped table-hover table-purple">
-                        <thead class="text-center">
+                    <table class="table table-hover align-middle shadow-sm rounded overflow-hidden">
+                        <thead class="text-white text-center"
+                               style="background:#6f42c1">
                             <tr>
                                 <td style="width:30%">Sản phẩm</td>
-                                <td>Số lượng</td>
-                                <td>Đơn giá</td>
-                                <td>Trị giá</td>
-                                <td width="80"></td>
+                                <td width="140">Số lượng</td>
+                                <td width="180">Đơn giá</td>
+                                <td width="180">Trị giá</td>
+                                <td width="150">Thao tác</td>
                             </tr>
                         </thead>
+
                         <tbody>
                             @foreach (var ct in chiTietList)
                             {
                                 <tr>
+
+                                    <!-- Sản phẩm -->
                                     <td>
-                                        @if (ct.Id == 0) // thêm mới
+                                        @if (ct.Id == 0)
                                         {
-                                           @*  <select class="form-select" @bind="ct.San_Pham_ID">
-                                                <option value="">-- chọn --</option>
+                                            <select class="form-select shadow-sm"
+                                                    @bind="ct.San_Pham_ID">
+
+                                                <option value="">-- chọn sản phẩm --</option>
+
                                                 @foreach (var sp in listSanPham)
                                                 {
-                                                    <option value="@sp.Id">@sp.Ten_San_Pham</option>
+                                                    <option value="@sp.Id">
+                                                        @sp.Ten_San_Pham
+                                                    </option>
                                                 }
-                                            </select> *@
-                                            <input class="form-control"
-                                                   value="@GetTenSP(ct.San_Pham_ID)"
-                                                   disabled />
+                                            </select>
                                         }
-                                        else // edit
+                                        else
                                         {
-                                            <input class="form-control"
+                                            <input class="form-control bg-light"
                                                    value="@GetTenSP(ct.San_Pham_ID)"
                                                    disabled />
                                         }
                                     </td>
 
+                                    <!-- Số lượng -->
                                     <td>
                                         <input type="number"
-                                               class="form-control text-end"
+                                               class="form-control text-end shadow-sm"
                                                @bind="ct.SL_Nhap" />
                                     </td>
 
+                                    <!-- Đơn giá -->
                                     <td>
                                         <input type="number"
-                                               class="form-control text-end"
+                                               class="form-control text-end shadow-sm"
                                                @bind="ct.Don_Gia_Nhap" />
                                     </td>
 
-                                    <td class="text-end">
-                                        @(ct.SL_Nhap * ct.Don_Gia_Nhap)
+                                    <!-- Thành tiền -->
+                                    <td class="text-end fw-bold text-success">
+                                        @(String.Format("{0:N0}", ct.SL_Nhap * ct.Don_Gia_Nhap)) đ
                                     </td>
 
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-warning" @onclick="() => HandleSaveDetail(ct.Id,ct)"><i class="bi bi-pencil"></i></button>
-                                        <button class="btn btn-sm btn-danger"
-                                                @onclick="() => RemoveCT(ct)">
-                                            X
-                                        </button>
+                                    <!-- Action -->
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+
+                                            <!-- Add -->
+                                            <button class="btn btn-sm rounded-circle text-white shadow-sm"
+                                                    style="background:#6f42c1; width:36px; height:36px"
+                                                    title="Thêm"
+                                                    @onclick="() => CreateDetails(ct)">
+
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+
+                                            <!-- Edit -->
+                                            <button class="btn btn-sm rounded-circle btn-warning shadow-sm"
+                                                    style="width:36px; height:36px"
+                                                    title="Cập nhật"
+                                                    @onclick="() => HandleSaveDetail(ct.Id,ct)">
+
+                                                <i class="bi bi-pencil-fill text-white"></i>
+                                            </button>
+
+                                            <!-- Delete -->
+                                            <button class="btn btn-sm rounded-circle btn-danger shadow-sm"
+                                                    style="width:36px; height:36px"
+                                                    title="Xóa"
+                                                    @onclick="() => DeleteDetails(ct.Id)">
+
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+
+                                        </div>
                                     </td>
+
                                 </tr>
                             }
                         </tbody>
+
+                        @*  <!-- Footer tổng -->
+                    <tfoot>
+                    <tr style="background:#f8f5ff">
+                    <td colspan="3"
+                    class="text-end fw-bold fs-5">
+                    Tổng tiền:
+                    </td>
+
+                    <td class="text-end fw-bold fs-5 text-danger">
+                    @String.Format("{0:N0}", chiTietList.Sum(x => x.SL_Xuat * x.Don_Gia_Xuat)) đ
+                    </td>
+
+                    <td></td>
+                    </tr>
+                    </tfoot> *@
                     </table>
 
                     <!-- TOTAL -->
@@ -476,7 +528,7 @@
                     <hr />
 
                     <!-- FOOTER -->
-                    <div class="d-flex justify-content-end gap-2">
+                   @*  <div class="d-flex justify-content-end gap-2">
                         <button class="btn btn-danger"
                                 @onclick="() => isEditDetailForm = false">
                             Hủy
@@ -488,7 +540,7 @@
                             💾 Lưu
                         </button>
                     </div>
-
+ *@
                     @if (!string.IsNullOrEmpty(msg))
                     {
                         <div class="alert alert-info mt-2">@msg</div>
@@ -535,27 +587,27 @@
                             <td>@item.Ngay_Nhap_Kho</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
-                                <div class="d-flex gap-2">
+                                <div class="d-flex justify-content-center gap-2">
 
-                                    <button class="btn btn-sm btn-warning"
+                                    <button class="btn btn-sm btn-warning rounded-circle text-white shadow-sm"
                                             title="Sửa header"
                                             @onclick="() => LoadEditHeader(item)">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
 
-                                    <button class="btn btn-sm btn-warning"
+                                    <button class="btn btn-sm btn-warning rounded-circle text-white shadow-sm"
                                             title="Sửa chi tiết"
                                             @onclick="() => LoadEditDetail(item)">
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                     <a href="/nhap-kho-print/@item.Id">
-                                    <button class="btn btn-sm text-white" style="background:#6f42c1"
+                                        <button class="btn btn-sm text-white rounded-circle text-white shadow-sm" style="background:#6f42c1"
                                             title="In phiếu">
                                        <i class="bi bi-printer"></i>
                                     </button>
                                     </a>
 
-                                    <button class="btn btn-sm btn-danger"
+                                    <button class="btn btn-sm btn-danger rounded-circle text-white shadow-sm"
                                             title="Xóa"
                                             @onclick="() => Delete(item.Id)">
                                         <i class="bi bi-trash"></i>
@@ -664,6 +716,7 @@
     {
         model = new NhapKhoDto();
         chiTietList = new List<NhapKhoDetailDto>();
+        model.ChiTiets = chiTietList;
         isEdit = false;
         msg = "";
     }
@@ -786,7 +839,7 @@
 
             if (res.IsSuccessStatusCode)
             {
-                msg = "Cap nhat thành công!";
+                msg = "Cập nhật thành công!";
             }
             else
             {
@@ -817,7 +870,7 @@
         try
         {
             var res = await Http.PutAsJsonAsync($"api/NhapKho/details/{id}", ct);
-            if (res.IsSuccessStatusCode) msg = "Cap nhat thành công!";
+            if (res.IsSuccessStatusCode) msg = "Cập nhật thành công!";
             else
             {
                 var error = await res.Content.ReadAsStringAsync();
@@ -864,6 +917,49 @@
             try
             {
                 await Http.DeleteAsync($"api/NhapKho/{id}");
+                await LoadList();
+            }
+            catch
+            {
+                msg = "Lỗi khi xoá nhập kho";
+            }
+        }
+    }
+
+    //-------------------- create va delete nhap kho detail tung dong ---------
+
+    private async Task CreateDetails(NhapKhoDetailDto ct)
+    {
+        try
+        {
+            ct.Nhap_Kho_ID = model.Id;
+
+            var res = await Http.PostAsJsonAsync("api/NhapKhoDetail", ct);
+
+            if (res.IsSuccessStatusCode)
+            {
+                msg = "Thêm chi tiết thành công";
+                await LoadList();
+            }
+            else
+            {
+                msg = await res.Content.ReadAsStringAsync();
+            }
+        }
+        catch
+        {
+            msg = "Lỗi khi thêm chi tiết nhập kho";
+        }
+    }
+
+    private async Task DeleteDetails(int id)
+    {
+        bool confirm = await JS.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa dòng sản phẩm này?");
+        if (confirm)
+        {
+            try
+            {
+                await Http.DeleteAsync($"api/NhapKhoDetail/{id}");
                 await LoadList();
             }
             catch
