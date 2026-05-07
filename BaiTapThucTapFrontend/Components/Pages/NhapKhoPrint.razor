@@ -1,0 +1,138 @@
+﻿@page "/nhap-kho-print/{Id:int}"
+@inject HttpClient Http
+@using BaiTapThucTapFrontend.Models
+
+@if (model == null || model.ChiTiets == null)
+{
+    <div class="no-print loading-message">Đang tải dữ liệu phiếu nhập...</div>
+}
+else
+{
+    <div class="print-container">
+        <!-- HEADER SECTION -->
+        <div class="header-top">
+            <div class="company-info">
+                <p>Đơn vị: .................................</p>
+                <p>Bộ phận: ................................</p>
+                <p>Ngày @model.Ngay_Nhap_Kho</p>
+                <p>Số Phiếu Nhập: <b>@model.So_Phieu_Nhap_Kho</b></p>
+                <p>Họ Tên Người Giao Hàng: <b>@model.Ten_NCC</b></p>
+                <p>Nhập Tại Kho: <b>@model.Ten_Kho</b></p>
+            </div>
+
+            <div class="title-section">
+                <h1>PHIẾU NHẬP KHO</h1>
+                <p>Nợ: .................................</p>
+                <p>Có: .................................</p>
+            </div>
+
+            <div class="form-code">
+                <h3>Mẫu Số : 01 - VT</h3>
+                <p>(Ban Hành Theo QĐ Số 15/2006/QĐ-BTC</p>
+                <p>Ngày 20/03/2006 Của Bộ Trưởng BTC)</p>
+            </div>
+        </div>
+
+        <!-- TABLE SECTION -->
+        <table class="table-print">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="col-stt">STT</th>
+                    <th rowspan="2">Tên nhãn hiệu, quy cách, phẩm chất, vật tư...</th>
+                    <th rowspan="2" class="col-ma">Mã Hàng</th>
+                    <th rowspan="2" class="col-dvt">Đơn Vị Tính</th>
+                    <th colspan="2">Số Lượng</th>
+                    <th rowspan="2">Đơn Giá</th>
+                    <th rowspan="2">Thành Tiền</th>
+                </tr>
+                <tr>
+                    <th class="col-sl">Kiện</th>
+                    <th class="col-sl">Cái</th>
+                </tr>
+                <tr class="sub-header">
+                    <td>A</td>
+                    <td>B</td>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                    foreach (var item in model.ChiTiets)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td class="text-left">@item.Ten_San_Pham</td>
+                            <td>@item.Ma_San_Pham</td>
+                            <td>@item.Ten_Don_Vi_Tinh</td>
+                            <td></td>
+                            <td>@item.SL_Nhap</td>
+                            <td>@item.Don_Gia_Nhap.ToString("N0")</td>
+                            <td>@((item.SL_Nhap * item.Don_Gia_Nhap).ToString("N0"))</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="4"><b>Tổng</b></td>
+                    <td></td>
+                    <td><b>@model.ChiTiets.Sum(x => x.SL_Nhap)</b></td>
+                    <td></td>
+                    <td><b>@model.ChiTiets.Sum(x => x.SL_Nhap * x.Don_Gia_Nhap).ToString("N0")</b></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- FOOTER SECTION -->
+        <div class="footer-print">
+            <p><b>Tổng Số Tiền (Viết bằng chữ):</b> ............................................................................................ USD</p>
+            <p><b>Số Chứng Từ Gốc Kèm Theo:</b> ........................................................ Ngày ..... Tháng ..... Năm .....</p>
+
+            <div class="signature-section">
+                <div class="sig-item"><b>Người Lập Phiếu</b><span>(Ký, họ tên)</span></div>
+                <div class="sig-item"><b>Người Giao Hàng</b><span>(Ký, họ tên)</span></div>
+                <div class="sig-item"><b>Thủ Kho</b><span>(Ký, họ tên)</span></div>
+                <div class="sig-item"><b>Kế Toán Trưởng</b><span>(Ký, họ tên)</span></div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private NhapKhoDto? model;
+    private string msg;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            model = await Http.GetFromJsonAsync<NhapKhoDto>($"api/NhapKho/{Id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Lỗi: " + ex.Message);
+        }
+        await LoadList();
+    }
+
+    private async Task LoadList()
+    {
+        try
+        {
+            listSanPham= await Http.GetFromJsonAsync<List<SanPhamDto>>("api/SanPham");
+        }
+        catch
+        {
+            msg = "Lỗi khi lấy thông tin sản phẩm";
+        }
+    }
+
+    List<SanPhamDto> listSanPham = new();
+}

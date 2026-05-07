@@ -461,7 +461,7 @@
         <table class="table table-striped table-hover table-purple border">
             <thead class="">
                 <tr>
-                    <td>Id</td>
+                    <td>STT</td>
                     <td>Số phiếu xuất kho</td>
                     <td>Kho</td>
                     <td>Ngày xuất kho</td>
@@ -480,10 +480,11 @@
                 }
                 else
                 {
+                    @code{ int i = 1;}
                     @foreach (var item in listData)
                     {
                         <tr>
-                            <td>@item.Id</td>
+                            <td>@i</td>
                             <td>@item.So_Phieu_Xuat_Kho</td>
                             <td>@item.Ten_Kho</td>
                             <td>@item.Ngay_Xuat_Kho</td>
@@ -517,6 +518,7 @@
                                 </div>
                             </td>
                         </tr>
+                        i++;
                     }
                 }
             </tbody>
