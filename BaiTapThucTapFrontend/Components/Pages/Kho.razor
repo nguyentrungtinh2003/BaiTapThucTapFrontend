@@ -74,7 +74,14 @@
 
                     @if (!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert alert-info mt-2">@msg</div>
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                            @msg
+
+                        </div>
                     }
                 </div>
             </div>

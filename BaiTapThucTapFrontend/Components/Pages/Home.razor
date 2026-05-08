@@ -1,6 +1,489 @@
-﻿@page "/wms"
+﻿
+@page "/wms"
 
-<PageTitle>HHệ Thống Quản Lý Kho</PageTitle>
+@using System.Net.Http.Json
+@using BaiTapThucTapFrontend.Models
+@using BaiTapThucTapFrontend.Services
 
-<h1>Hệ Thống Quản Lý Kho</h1>
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject AppState AppState
+@inject NavigationManager Navigation
 
+@rendermode InteractiveServer
+
+<PageTitle>WMS Dashboard</PageTitle>
+
+@if (data == null)
+{
+    <div class="container py-5">
+
+        <div class="card border-0 shadow-lg rounded-4">
+
+            <div class="card-body text-center p-5">
+
+                <div class="spinner-border text-primary mb-4"
+                     style="width:4rem;height:4rem">
+                </div>
+
+                <h4 class="fw-bold">
+                    Đang tải dữ liệu kho...
+                </h4>
+
+                <div class="text-muted">
+                    Vui lòng chờ trong giây lát
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="container-fluid py-4">
+
+        <!-- HERO -->
+
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+
+            <div class="position-relative">
+
+                <div class="p-5 text-white"
+                     style="background:
+                     linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#9333ea 100%)">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-8">
+
+                            <div class="mb-3">
+
+                                <span class="badge bg-white text-dark px-3 py-2 rounded-pill shadow-sm">
+
+                                    <i class="bi bi-shield-check me-1"></i>
+
+                                    Warehouse Management System
+
+                                </span>
+
+                            </div>
+
+                            <h1 class="display-5 fw-bold mb-3">
+
+                                Xin chào,
+                                @AppState.Ma_Dang_Nhap 👋
+
+                            </h1>
+
+                            <h3 class="fw-light mb-4 opacity-75">
+
+                                @data.Ten_Kho
+
+                            </h3>
+
+                            <div class="d-flex flex-wrap gap-3">
+
+                                <div class="glass-box">
+
+                                    <div class="small opacity-75">
+                                        Mã Kho
+                                    </div>
+
+                                    <div class="fw-bold fs-4">
+                                        @data.Id
+                                    </div>
+
+                                </div>
+
+                                <div class="glass-box">
+
+                                    <div class="small opacity-75">
+                                        Quyền
+                                    </div>
+
+                                    <div class="fw-bold fs-5">
+
+                                        @(AppState.isAdmin
+                                            ? "Administrator"
+                                            : "Nhân viên kho")
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4 text-center d-none d-lg-block">
+
+                            <div class="warehouse-icon">
+
+                                <i class="bi bi-building-fill"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- QUICK ACTION -->
+
+        <div class="row g-4 mb-4">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="icon-box bg-success-subtle text-success">
+
+                            <i class="bi bi-box-arrow-in-down"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold mt-4">
+                            Nhập Kho
+                        </h5>
+
+                        <p class="text-muted small">
+                            Quản lý phiếu nhập hàng
+                        </p>
+
+                        <button class="btn btn-success rounded-pill px-4"
+                                @onclick='() => Navigation.NavigateTo("/nhap-kho")'>
+
+                            Truy cập
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="icon-box bg-danger-subtle text-danger">
+
+                            <i class="bi bi-box-arrow-up"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold mt-4">
+                            Xuất Kho
+                        </h5>
+
+                        <p class="text-muted small">
+                            Quản lý phiếu xuất hàng
+                        </p>
+
+                        <button class="btn btn-danger rounded-pill px-4"
+                                @onclick='() => Navigation.NavigateTo("/xuat-kho")'>
+
+                            Truy cập
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="icon-box bg-primary-subtle text-primary">
+
+                            <i class="bi bi-clipboard-data"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold mt-4">
+                            Báo Cáo
+                        </h5>
+
+                        <p class="text-muted small">
+                            Thống kê xuất nhập tồn
+                        </p>
+
+                        <button class="btn btn-primary rounded-pill px-4"
+                                @onclick='() => Navigation.NavigateTo("/bao-cao-xuat-nhap-ton")'>
+
+                            Truy cập
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card border-0 shadow-sm h-100">
+
+                    <div class="card-body p-4 text-center">
+
+                        <div class="icon-box bg-warning-subtle text-warning">
+
+                            <i class="bi bi-people"></i>
+
+                        </div>
+
+                        <h5 class="fw-bold mt-4">
+                            Người Dùng
+                        </h5>
+
+                        <p class="text-muted small">
+                            Quản lý tài khoản hệ thống
+                        </p>
+
+                        <button class="btn btn-warning rounded-pill px-4 text-white">
+
+                            Truy cập
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="row g-4">
+
+            <div class="col-lg-8">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4">
+
+                        <h4 class="fw-bold mb-4">
+
+                            <i class="bi bi-bar-chart-line me-2 text-primary"></i>
+
+                            Tổng Quan Hệ Thống
+
+                        </h4>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+
+                                <div class="stat-card bg-light">
+
+                                    <div class="fs-1 text-success">
+                                        <i class="bi bi-box-seam"></i>
+                                    </div>
+
+                                    <div class="fw-bold mt-2">
+                                        Nhập Kho
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <div class="stat-card bg-light">
+
+                                    <div class="fs-1 text-danger">
+                                        <i class="bi bi-truck"></i>
+                                    </div>
+
+                                    <div class="fw-bold mt-2">
+                                        Xuất Kho
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <div class="stat-card bg-light">
+
+                                    <div class="fs-1 text-primary">
+                                        <i class="bi bi-clipboard-check"></i>
+                                    </div>
+
+                                    <div class="fw-bold mt-2">
+                                        Tồn Kho
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                    <div class="card-body p-4">
+
+                        <h4 class="fw-bold mb-4">
+
+                            <i class="bi bi-person-circle me-2 text-primary"></i>
+
+                            Thông Tin
+
+                        </h4>
+
+                        <div class="mb-3">
+
+                            <div class="text-muted small">
+                                Người dùng
+                            </div>
+
+                            <div class="fw-bold fs-5">
+                                @AppState.Ma_Dang_Nhap
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <div class="text-muted small">
+                                Kho hiện tại
+                            </div>
+
+                            <div class="fw-bold fs-5">
+                                @data.Ten_Kho
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <div class="text-muted small">
+                                Quyền hạn
+                            </div>
+
+                            <span class="badge bg-primary px-3 py-2 rounded-pill">
+
+                                @(AppState.isAdmin
+                                    ? "Admin"
+                                    : "User")
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+<style>
+
+    .glass-box {
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        padding: 18px 24px;
+        min-width: 160px;
+        border: 1px solid rgba(255,255,255,.2);
+    }
+
+    .warehouse-icon {
+        font-size: 140px;
+        opacity: .15;
+    }
+
+    .dashboard-card {
+        transition: .25s;
+        border-radius: 24px;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-6px);
+        }
+
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        margin: auto;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+    }
+
+    .stat-card {
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        transition: .2s;
+    }
+
+        .stat-card:hover {
+            transform: scale(1.03);
+        }
+
+</style>
+
+@code {
+
+    private KhoDto? data = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadKho();
+    }
+
+    private async Task LoadKho()
+    {
+        try
+        {
+            data = await Http.GetFromJsonAsync<KhoDto>
+            (
+                $"api/Kho/{AppState.Kho_ID}"
+            );
+        }
+        catch
+        {
+            data = null;
+        }
+    }
+}
+```

@@ -75,11 +75,13 @@
 
                     @if (!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert mt-2 shadow-sm border-0 text-white rounded-3"
-                             style="background:linear-gradient(135deg,#b084f5,#8f5de8);">
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
 
                             <i class="bi bi-info-circle-fill me-2"></i>
+
                             @msg
+
                         </div>
                     }
                 </div>
@@ -220,6 +222,7 @@
         model = new DonViTinhDto { Id = item.Id, Ten_Don_Vi_Tinh = item.Ten_Don_Vi_Tinh, Ghi_Chu = item.Ghi_Chu };
         isEdit = true;
         showForm = true;
+        // msg = "Đang ở chế độ chỉnh sửa"
     }
 
     private async Task Delete(int id)

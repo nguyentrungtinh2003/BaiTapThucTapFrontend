@@ -82,7 +82,14 @@
 
                     @if (!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert alert-info mt-2">@msg</div>
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                            @msg
+
+                        </div>
                     }
                 </div>
             </div>
@@ -226,7 +233,7 @@
         model = new LoaiSanPhamDto { Id = item.Id, Ma_LSP = item.Ma_LSP, Ten_LSP = item.Ten_LSP, Ghi_Chu = item.Ghi_Chu };
         isEdit = true;
         showForm = true;
-        msg = "Đang ở chế độ chỉnh sửa.";
+        // msg = "Đang ở chế độ chỉnh sửa.";
     }
 
     private async Task Delete(int id)

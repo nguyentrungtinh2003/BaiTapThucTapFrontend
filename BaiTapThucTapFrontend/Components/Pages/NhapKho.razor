@@ -1,9 +1,11 @@
 ﻿@page "/nhap-kho"
 @using System.Net.Http.Json
 @using BaiTapThucTapFrontend.Models
+@using BaiTapThucTapFrontend.Services
 @inject HttpClient Http
 @inject IJSRuntime JS
 @rendermode InteractiveServer
+@inject AppState AppState
 
 <div class="container-fluid">
     <h3 class="mt-3">Quản Lý Nhập Kho</h3>
@@ -222,7 +224,14 @@
 
                     @if(!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert alert-info mt-2">@msg</div>
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                            @msg
+
+                        </div>
                     }
                 </div>
             </div>
@@ -312,7 +321,14 @@
 
                     @if (!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert alert-info mt-2">@msg</div>
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                            @msg
+
+                        </div>
                     }
                 </div>
             </div>
@@ -543,7 +559,14 @@
  *@
                     @if (!string.IsNullOrEmpty(msg))
                     {
-                        <div class="alert alert-info mt-2">@msg</div>
+                        <div class="alert mt-2 shadow-sm border-0 text-dark rounded-3"
+                             style="background:#ede9fe;">
+
+                            <i class="bi bi-info-circle-fill me-2"></i>
+
+                            @msg
+
+                        </div>
                     }
                 </div>
             </div>
@@ -690,7 +713,7 @@
     {
         try
         {
-            listData = await Http.GetFromJsonAsync<List<NhapKhoDto>>("api/NhapKho");
+            listData = await Http.GetFromJsonAsync<List<NhapKhoDto>>($"api/NhapKho?userKhoId={AppState.Kho_ID}&isAdmin={AppState.isAdmin}");
         }
         catch
         {
