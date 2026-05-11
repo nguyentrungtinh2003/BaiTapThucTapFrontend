@@ -55,8 +55,12 @@
     {
         <div class="overlay">
             <div class="form-popup card shadow">
-                <div class="card-header text-white" style="background:#6f42c1">
+                <div class="card-header text-white d-flex justify-content-between align-items-center" style="background:#6f42c1">
                     <h5>@(isEdit ? "Cập nhật" : "Thêm mới") sản phẩm</h5>
+                    <button class="btn btn-sm btn-danger text-white"
+                            @onclick="() => showForm = false">
+                        X
+                    </button>
                 </div>
 
                 <div class="card-body">
@@ -96,10 +100,10 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-                        <button class="btn btn-danger"
+                       @*  <button class="btn btn-danger"
                                 @onclick="() => {showForm = false; isEdit = false;}">
                             Hủy
-                        </button>
+                        </button> *@
 
                         <button class="btn text-white"
                                 style="background:#6f42c1"
@@ -237,23 +241,34 @@
             return;
         }
 
-        if(model.Don_Vi_Tinh_ID <= 0)
+        if (model.Loai_San_Pham_ID <= 0)
         {
-            msg = "Đơn vị tính không hợp lệ";
+            msg = "Loại sản phẩm không được rỗng";
             return;
         }
 
-        if(model.Loai_San_Pham_ID <= 0)
+        if(model.Don_Vi_Tinh_ID <= 0)
         {
-            msg = "Loại sản phẩm không hợp lệ";
+            msg = "Đơn vị tính không được rỗng";
             return;
         }
 
         if (isEdit)
         {
             try{
-                await Http.PutAsJsonAsync($"api/SanPham/{model.Id}", model);
-                msg = "Cập nhật thành công!";
+                var res = await Http.PutAsJsonAsync($"api/SanPham/{model.Id}", model);
+                if (res.IsSuccessStatusCode)
+                {
+                    msg = "Cập nhật thành công!";
+                    model = new();
+                    isEdit = false;
+                    await LoadList();
+                }
+                else
+                {
+                    var error = await res.Content.ReadAsStringAsync();
+                    msg = error;
+                }
             }
             catch
             {
@@ -265,7 +280,13 @@
             try
             {
                 var res = await Http.PostAsJsonAsync("api/SanPham", model);
-                if (res.IsSuccessStatusCode) msg = "Thêm mới thành công!";
+                if (res.IsSuccessStatusCode)
+                {
+                    msg = "Thêm mới thành công!";
+                    model = new();
+                    isEdit = false;
+                    await LoadList();
+                }
                 else
                 {
                     var error = await res.Content.ReadAsStringAsync();
@@ -277,10 +298,6 @@
                 msg = "Lỗi khi thêm sản phẩm";
             }
         }
-
-        model = new();
-        isEdit = false;
-        await LoadList();
     }
 
     private void LoadEdit(SanPhamDto item)
@@ -298,8 +315,19 @@
         {
             try
             {
-                await Http.DeleteAsync($"api/SanPham/{id}");
-                await LoadList();
+                var res = await Http.DeleteAsync($"api/SanPham/{id}");
+                if (res.IsSuccessStatusCode)
+                {
+                    msg = "Xoá thành công!";
+                    model = new();
+                    isEdit = false;
+                    await LoadList();
+                }
+                else
+                {
+                    var error = await res.Content.ReadAsStringAsync();
+                    msg = error;
+                }
             }
             catch
             {

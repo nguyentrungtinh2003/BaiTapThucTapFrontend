@@ -31,7 +31,6 @@
                 </div>
 
             </div>
-
         </div>
 
         <!-- BODY -->
@@ -87,7 +86,7 @@
 
                         <div class="fs-4 fw-bold text-danger">
 
-                            @TongTriGia.ToString("N0") VNĐ
+                            @TongTriGia.ToString("N0") VND
 
                         </div>
 
@@ -99,9 +98,12 @@
 
             <!-- TABLE -->
 
-            <div class="table-responsive rounded-3 border">
+            <div class="table-responsive rounded-3 border shadow-sm">
+                <div class="table-scroll">
 
-                <table class="table table-hover align-middle mb-0">
+                        <table class="table table-hover align-middle shadow-sm rounded overflow-hidden">
+
+               @*  <table class="table table-hover align-middle mb-0"> *@
 
                     <thead>
 
@@ -213,7 +215,7 @@
 
                                 <td class="text-end text-primary fw-semibold">
 
-                                    @item.Don_Gia_Nhap.ToString("N0")
+                                    @item.Don_Gia_Nhap.ToString("N0") VND
 
                                 </td>
 
@@ -221,7 +223,7 @@
 
                                     <span class="fw-bold text-success">
 
-                                        @((item.SL_Nhap * item.Don_Gia_Nhap).ToString("N0"))
+                                        @((item.SL_Nhap * item.Don_Gia_Nhap).ToString("N0")) VND
 
                                     </span>
 
@@ -247,7 +249,7 @@
 
                                 <th class="text-end text-danger fs-5">
 
-                                    @TongTriGia.ToString("N0")
+                                    @TongTriGia.ToString("N0") VND
 
                                 </th>
 
@@ -257,6 +259,7 @@
                     }
 
                 </table>
+                </div>
 
             </div>
 

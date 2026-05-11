@@ -54,6 +54,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xLaG8ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/KhoUser.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xLaG9Vc2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/MY_PROJECT/BaiTapThucTapFrontend/BaiTapThucTapFrontend/Components/Pages/LoaiSanPham.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2FpU2FuUGhhbS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

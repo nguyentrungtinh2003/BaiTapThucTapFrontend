@@ -4,6 +4,7 @@
 @inject IJSRuntime JS
 @inject AppState AppState
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <div>
 
@@ -43,6 +44,9 @@
                     <li class="nav-item">
                         <NavLink class="nav-link text-white" href="kho">Kho</NavLink>
                     </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-white" href="kho-user">Tài khoản</NavLink>
+                    </li>
 				 } 
 				<li class="nav-item">
                     <NavLink class="nav-link text-white" href="nhap-kho">Nhập Kho</NavLink>
@@ -65,14 +69,14 @@
 
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center px-3" data-bs-toggle="dropdown">
+               @*  <li class="nav-item dropdown">
+                  
                         <img src="https://github.com/mdo.png" width="32" height="32" class="rounded-circle me-2">
                         <span class="text-white d-none d-md-inline">
                             @AppState.Ma_Dang_Nhap
                         </span>
                         <button class="btn btn-danger text-white" @onclick="() => Logout()">Logout</button>
-                    </a>
+                    
 
                    @*  <ul class="dropdown-menu dropdown-menu-end shadow">
                         <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -82,7 +86,25 @@
                             <button class="dropdown-item text-danger" @onclick="() => Logout()">Logout</button>
                         </li>
                     </ul> *@
-                </li>
+               
+                <div class="d-flex align-items-center gap-2">
+
+                    <img src="https://github.com/mdo.png"
+                         width="36"
+                         height="36"
+                         class="rounded-circle border border-light" />
+
+                    <span class="text-white fw-semibold">
+                        @AppState.Ma_Dang_Nhap
+                    </span>
+
+                    <button class="btn btn-sm btn-outline-light rounded-pill"
+                            @onclick="Logout">
+
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+
+                </div>
             </ul>
         </div>
     </nav>
@@ -118,7 +140,7 @@
         }
   
 
-    async Task Logout()
+   public async Task Logout()
     {
         // clear AppState (RAM)
         AppState.Ma_Dang_Nhap = "";
@@ -132,6 +154,6 @@
         await JS.InvokeVoidAsync("localStorage.removeItem", "khoId");
 
         // chuyển về login
-        Navigation.NavigateTo("/");
+        Navigation.NavigateTo("/", true);
     }
 }
