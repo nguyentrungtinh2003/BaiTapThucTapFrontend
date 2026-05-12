@@ -4,51 +4,122 @@
 
 @if (model == null || model.ChiTiets == null)
 {
-    <div class="no-print loading-message">Đang tải dữ liệu phiếu nhập...</div>
+    <div class="loading-message no-print">
+        Đang tải dữ liệu phiếu nhập...
+    </div>
 }
 else
 {
     <div class="print-container">
-        <!-- HEADER SECTION -->
-        <div class="header-top">
-            <div class="company-info">
-                <p>Đơn vị: .................................</p>
-                <p>Bộ phận: ................................</p>
-                <p>Ngày @model.Ngay_Nhap_Kho</p>
-                <p>Số Phiếu Nhập: <b>@model.So_Phieu_Nhap_Kho</b></p>
-                <p>Họ Tên Người Giao Hàng: <b>@model.Ten_NCC</b></p>
-                <p>Nhập Tại Kho: <b>@model.Ten_Kho</b></p>
+
+        <!-- ================= HEADER ================= -->
+        <div class="top-header">
+
+            <!-- LEFT -->
+            <div class="header-left">
+                <p><b>Đơn vị :</b> .....................................</p>
+                <p><b>Bộ phận :</b> .....................................</p>
+
+                <div class="info-section mt-2">
+
+                    <div class="info-row">
+                        <div class="info-label">Ngày :</div>
+                        <div class="info-value">
+                            @model.Ngay_Nhap_Kho?.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Số Phiếu Nhập :</div>
+                        <div class="info-value">
+                            <b>@model.So_Phieu_Nhap_Kho</b>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Người Giao :</div>
+                        <div class="info-value">
+                            <b>@model.Ten_NCC</b>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Nhập Tại Kho :</div>
+                        <div class="info-value">
+                            <b>@model.Ten_Kho</b>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="title-section">
+            <!-- CENTER -->
+            <div class="header-center">
                 <h1>PHIẾU NHẬP KHO</h1>
-                <p>Nợ: .................................</p>
-                <p>Có: .................................</p>
+
+                <div class="mini-row">
+                    <span><b>Nợ :</b> ....................</span>
+                </div>
+
+                <div class="mini-row">
+                    <span><b>Có :</b> ....................</span>
+                </div>
             </div>
 
-            <div class="form-code">
-                <h3>Mẫu Số : 01 - VT</h3>
-                <p>(Ban Hành Theo QĐ Số 15/2006/QĐ-BTC</p>
-                <p>Ngày 20/03/2006 Của Bộ Trưởng BTC)</p>
+            <!-- RIGHT -->
+            <div class="header-right">
+                <h2>Mẫu Số : 01 - VT</h2>
+
+                <p>
+                    (Ban Hành Theo QĐ Số 15/2006/QĐ-BTC)
+                </p>
+
+                <p>
+                    Ngày 20/03/2006 Của Bộ Trưởng BTC
+                </p>
             </div>
+
         </div>
 
-        <!-- TABLE SECTION -->
+        <!-- ================= TABLE ================= -->
         <table class="table-print">
+
             <thead>
+
                 <tr>
-                    <th rowspan="2" class="col-stt">STT</th>
-                    <th rowspan="2">Tên nhãn hiệu, quy cách, phẩm chất, vật tư...</th>
-                    <th rowspan="2" class="col-ma">Mã Hàng</th>
-                    <th rowspan="2" class="col-dvt">Đơn Vị Tính</th>
-                    <th colspan="2">Số Lượng</th>
-                    <th rowspan="2">Đơn Giá</th>
-                    <th rowspan="2">Thành Tiền</th>
+                    <th rowspan="2" style="width:60px">STT</th>
+
+                    <th rowspan="2">
+                        Tên nhãn hiệu, quy cách,
+                        phẩm chất, vật tư...
+                    </th>
+
+                    <th rowspan="2" style="width:120px">
+                        Mã Hàng
+                    </th>
+
+                    <th rowspan="2" style="width:100px">
+                        Đơn Vị Tính
+                    </th>
+
+                    <th colspan="2" style="width:120px">
+                        Số Lượng
+                    </th>
+
+                    <th rowspan="2" style="width:130px">
+                        Đơn Giá
+                    </th>
+
+                    <th rowspan="2" style="width:150px">
+                        Thành Tiền
+                    </th>
                 </tr>
+
                 <tr>
-                    <th class="col-sl">Kiện</th>
-                    <th class="col-sl">Cái</th>
+                    <th>Kiện</th>
+                    <th>Cái</th>
                 </tr>
+
                 <tr class="sub-header">
                     <td>A</td>
                     <td>B</td>
@@ -59,66 +130,182 @@ else
                     <td>3</td>
                     <td>4</td>
                 </tr>
+
             </thead>
+
             <tbody>
+
                 @{
-                    int i = 1;
+                    int stt = 1;
+
                     foreach (var item in model.ChiTiets)
                     {
                         <tr>
-                            <td>@(i++)</td>
-                            <td class="text-left">@item.Ten_San_Pham</td>
-                            <td>@item.Ma_San_Pham</td>
-                            <td>@item.Ten_Don_Vi_Tinh</td>
-                            <td></td>
-                            <td>@item.SL_Nhap</td>
-                            <td>@item.Don_Gia_Nhap.ToString("N0")</td>
-                            <td>@((item.SL_Nhap * item.Don_Gia_Nhap).ToString("N0"))</td>
+
+                            <td class="text-center">
+                                @(stt++)
+                            </td>
+
+                            <td class="text-left">
+                                @item.Ten_San_Pham
+                            </td>
+
+                            <td class="text-center">
+                                @item.Ma_San_Pham
+                            </td>
+
+                            <td class="text-center">
+                                @item.Ten_Don_Vi_Tinh
+                            </td>
+
+                            <td class="text-center"></td>
+
+                            <td class="text-right">
+                                @item.SL_Nhap
+                            </td>
+
+                            <td class="text-right">
+                                @item.Don_Gia_Nhap.ToString("N0") VND
+                            </td>
+
+                            <td class="text-right">
+                                @((item.SL_Nhap * item.Don_Gia_Nhap).ToString("N0")) VND
+                            </td>
+
                         </tr>
                     }
                 }
+
             </tbody>
+
             <tfoot>
-                <tr class="total-row">
-                    <td colspan="4"><b>Tổng</b></td>
+
+                <tr>
+
+                    <td colspan="4" class="text-center">
+                        <b>TỔNG</b>
+                    </td>
+
                     <td></td>
-                    <td><b>@model.ChiTiets.Sum(x => x.SL_Nhap)</b></td>
+
+                    <td class="text-right">
+                        <b>
+                            @model.ChiTiets.Sum(x => x.SL_Nhap).ToString("N0")
+                        </b>
+                    </td>
+
                     <td></td>
-                    <td><b>@model.ChiTiets.Sum(x => x.SL_Nhap * x.Don_Gia_Nhap).ToString("N0")</b></td>
+
+                    <td class="text-right">
+                        <b>
+                            @model.ChiTiets.Sum(x => x.SL_Nhap * x.Don_Gia_Nhap).ToString("N0") VND
+                        </b>
+                    </td>
+
                 </tr>
+
             </tfoot>
+
         </table>
 
-        <!-- FOOTER SECTION -->
-        <div class="footer-print">
-            <p><b>Tổng Số Tiền (Viết bằng chữ):</b> ............................................................................................ USD</p>
-            <p><b>Số Chứng Từ Gốc Kèm Theo:</b> ........................................................ Ngày ..... Tháng ..... Năm .....</p>
+        <!-- ================= TOTAL ================= -->
 
-            <div class="signature-section">
-                <div class="sig-item"><b>Người Lập Phiếu</b><span>(Ký, họ tên)</span></div>
-                <div class="sig-item"><b>Người Giao Hàng</b><span>(Ký, họ tên)</span></div>
-                <div class="sig-item"><b>Thủ Kho</b><span>(Ký, họ tên)</span></div>
-                <div class="sig-item"><b>Kế Toán Trưởng</b><span>(Ký, họ tên)</span></div>
-            </div>
+        <div class="total-money">
+            Tổng Số Tiền (Viết bằng chữ) :
+            ..............................................................................
         </div>
+
+        <div class="mt-2">
+            <b>Số Chứng Từ Gốc Kèm Theo :</b>
+            ........................................................
+        </div>
+
+        <!-- ================= DATE ================= -->
+
+        <div class="date-print">
+            Ngày ..... Tháng ..... Năm .....
+        </div>
+
+        <!-- ================= SIGNATURE ================= -->
+
+        <div class="signature-section">
+
+            <div class="signature-item">
+                <div class="title">
+                    Người Lập Phiếu
+                </div>
+
+                <div class="note">
+                    (Ký, họ tên)
+                </div>
+
+                <div class="signature-space"></div>
+            </div>
+
+            <div class="signature-item">
+                <div class="title">
+                    Người Giao Hàng
+                </div>
+
+                <div class="note">
+                    (Ký, họ tên)
+                </div>
+
+                <div class="signature-space"></div>
+            </div>
+
+            <div class="signature-item">
+                <div class="title">
+                    Thủ Kho
+                </div>
+
+                <div class="note">
+                    (Ký, họ tên)
+                </div>
+
+                <div class="signature-space"></div>
+            </div>
+
+            <div class="signature-item">
+                <div class="title">
+                    Kế Toán Trưởng
+                </div>
+
+                <div class="note">
+                    (Ký, họ tên)
+                </div>
+
+                <div class="signature-space"></div>
+            </div>
+
+        </div>
+
     </div>
 }
 
 @code {
-    [Parameter] public int Id { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
     private NhapKhoDto? model;
-    private string msg;
+
+    private string msg = "";
+
+    List<SanPhamDto> listSanPham = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            model = await Http.GetFromJsonAsync<NhapKhoDto>($"api/NhapKho/{Id}");
+            model = await Http
+                .GetFromJsonAsync<NhapKhoDto>($"api/NhapKho/{Id}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Lỗi: " + ex.Message);
+            Console.WriteLine(ex.Message);
         }
+
         await LoadList();
     }
 
@@ -126,13 +313,13 @@ else
     {
         try
         {
-            listSanPham= await Http.GetFromJsonAsync<List<SanPhamDto>>("api/SanPham");
+            listSanPham = await Http
+                .GetFromJsonAsync<List<SanPhamDto>>("api/SanPham")
+                ?? new();
         }
         catch
         {
             msg = "Lỗi khi lấy thông tin sản phẩm";
         }
     }
-
-    List<SanPhamDto> listSanPham = new();
 }

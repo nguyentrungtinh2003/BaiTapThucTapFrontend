@@ -6,9 +6,9 @@
 @rendermode InteractiveServer
 
 <div class="container-fluid">
-    <h3 class="mt-3">Quản Lý Sản Phẩm</h3>
+    <h6 class="mb-2 fw-bold">Quản Lý Sản Phẩm</h6>
 
-    <button class="btn text-white mb-3"
+    <button class="btn text-white mb-2"
             style="background-color:#6f42c1"
             @onclick="() => showForm = true">
         + Thêm sản phẩm
@@ -58,7 +58,7 @@
                 <div class="card-header text-white d-flex justify-content-between align-items-center" style="background:#6f42c1">
                     <h5>@(isEdit ? "Cập nhật" : "Thêm mới") sản phẩm</h5>
                     <button class="btn btn-sm btn-danger text-white"
-                            @onclick="() => showForm = false">
+                            @onclick="() => CloseForm()">
                         X
                     </button>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label>Mã sản phẩm</label>
-                        <input class="form-control" @bind="model.Ma_San_Pham" placeholder="VD SP001, SP002,..."/>
+                        <input class="form-control" @bind="model.Ma_San_Pham" placeholder="VD SP001, SP002,..." />
                     </div>
                     <div class="mb-3">
                         <label>Tên sản phẩm</label>
@@ -225,6 +225,16 @@
         {
             msg = "Lỗi khi lấy thông tin đơn vị tính hoặc loại sản phẩm";
         }
+    }
+
+    private async Task CloseForm()
+    {
+        showForm = false;
+        model = new();
+        isEdit = false;
+        msg = "";
+
+        await LoadList();
     }
 
     private async Task HandleSave()
