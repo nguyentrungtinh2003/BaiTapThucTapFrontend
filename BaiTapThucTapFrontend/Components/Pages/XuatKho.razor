@@ -79,7 +79,7 @@
                         <div class="col-md-3">
                             <label>Số phiếu xuất</label>
                             <input class="form-control"
-                                   @bind="model.So_Phieu_Xuat_Kho" />
+                                   @bind="model.So_Phieu_Xuat_Kho" placeholder="PXK001, PXK002,..."/>
                         </div>
 
                         <div class="col-md-3">
@@ -133,7 +133,7 @@
                         <div class="col-md-12">
                             <label>Ghi chú</label>
                             <input class="form-control"
-                                   @bind="model.Ghi_Chu" />
+                                   @bind="model.Ghi_Chu" placeholder="Nhập ghi chú nếu có"/>
                         </div>
 
                     </div>
@@ -237,7 +237,7 @@
                         <button class="btn text-white"
                                 style="background:#6f42c1"
                                 @onclick="HandleSave">
-                            💾 Lưu
+                            Lưu
                         </button>
                     </div>
 
@@ -352,7 +352,7 @@
                         <button class="btn text-white"
                                 style="background:#6f42c1"
                                 @onclick="HandleSaveHeader">
-                            💾 Lưu
+                            Lưu
                         </button>
                     </div>
 
@@ -641,22 +641,44 @@
 
 
     @* Bảng hiển thị *@
-    <div class="table-responsive">
+    <div class="table-responsive table-scroll">
         <table class="table table-striped table-hover table-purple border">
             <thead class="">
                 <tr>
-                    <td>STT</td>
-                    <td>Số phiếu xuất kho</td>
-                    <td>Kho</td>
-                    <td>Ngày nhập kho</td>
-                    <td>Ghi chú</td>
-                    <td class="text-center" width="180">Thao tác</td>
+                    <th>STT</th>
+                    <th>Số phiếu xuất kho</th>
+                    <th>Kho</th>
+                    <th>Ngày xuất kho</th>
+                    <th>Ghi chú</th>
+                    <th class="text-center" width="180">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 @if (listData == null)
                 {
-                    <tr><td colspan="7" class="text-center">Đang tải dữ liệu từ API...</td></tr>
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+
+                            <div class="d-flex flex-column align-items-center">
+
+                                <div class="spinner-border mb-3"
+                                     role="status"
+                                     style="
+                    width: 3rem;
+                    height: 3rem;
+                    color:#6f42c1;
+                     ">
+                                </div>
+
+                                <span class="fw-semibold"
+                                      style="color:#6f42c1">
+                                    Đang tải dữ liệu...
+                                </span>
+
+                            </div>
+
+                        </td>
+                    </tr>
                 }
                 else if (listData.Count == 0)
                 {
@@ -664,16 +686,16 @@
                 }
                 else
                 {
+                    @code{
+                        int i = 1;
+                    }
                     @foreach (var item in listData)
                     {
-                        @code {
-                    int i = 1;
-                }
                         <tr>
                             <td>@i</td>
                             <td>@item.So_Phieu_Xuat_Kho</td>
                             <td>@item.Ten_Kho</td>
-                            <td>@item.Ngay_Xuat_Kho</td>
+                            <td>@item.Ngay_Xuat_Kho?.ToString("dd/MM/yyyy")</td>
                             <td>@item.Ghi_Chu</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
@@ -1095,7 +1117,7 @@
         }
         catch
         {
-            msg = "Lỗi khi thêm chi tiết xuat kho";
+            msg = "Lỗi khi thêm chi tiết xuất kho";
         }
     }
 

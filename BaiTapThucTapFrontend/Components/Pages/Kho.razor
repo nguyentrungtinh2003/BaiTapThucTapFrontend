@@ -55,7 +55,7 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label>Tên kho</label>
-                        <input class="form-control" @bind="model.Ten_Kho" placeholder="VD Kho1, Kho2,..."/>
+                        <input class="form-control" @bind="model.Ten_Kho" placeholder="Kho A, Kho B,..."/>
                     </div>
 
                     <div class="mb-3">
@@ -93,7 +93,7 @@
     }
 
     @* Bảng hiển thị *@
-    <div class="table-responsive">
+    <div class="table-responsive table-scroll">
         <table class="table table-striped table-hover table-purple border">
             <thead class="">
                 <tr>
@@ -106,7 +106,29 @@
             <tbody>
                 @if (listData == null)
                 {
-                    <tr><td colspan="4" class="text-center">Đang tải dữ liệu từ API...</td></tr>
+                    <tr>
+                        <td colspan="4" class="text-center py-5">
+
+                            <div class="d-flex flex-column align-items-center">
+
+                                <div class="spinner-border mb-3"
+                                     role="status"
+                                     style="
+                    width: 3rem;
+                    height: 3rem;
+                    color:#6f42c1;
+                     ">
+                                </div>
+
+                                <span class="fw-semibold"
+                                      style="color:#6f42c1">
+                                    Đang tải dữ liệu...
+                                </span>
+
+                            </div>
+
+                        </td>
+                    </tr>
                 }
                 else if (listData.Count == 0)
                 {
@@ -115,7 +137,7 @@
                 else
                 {
                     @code{ int i = 1;}
-                    foreach (var item in listData)
+                    @foreach (var item in listData)
                     {
                         <tr>
                             <th>@i</th>

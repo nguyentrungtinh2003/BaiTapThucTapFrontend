@@ -5,7 +5,29 @@
 @if (model == null || model.ChiTiets == null)
 {
     <div class="loading-message no-print">
-        Đang tải dữ liệu phiếu nhập...
+        <tr>
+            <td colspan="7" class="text-center py-5">
+
+                <div class="d-flex flex-column align-items-center">
+
+                    <div class="spinner-border mb-3"
+                         role="status"
+                         style="
+                    width: 3rem;
+                    height: 3rem;
+                    color:#6f42c1;
+                     ">
+                    </div>
+
+                    <span class="fw-semibold"
+                          style="color:#6f42c1">
+                        Đang tải dữ liệu...
+                    </span>
+
+                </div>
+
+            </td>
+        </tr>
     </div>
 }
 else
